@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Report generation flow</title>
+  <desc id="desc">A schematic flow from detections and sections to a Word report.</desc>
+  <rect width="960" height="420" fill="#eef3ef"/>
+  <rect x="72" y="92" width="196" height="220" rx="16" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+  <text x="112" y="156" fill="#114b48" font-family="Arial, sans-serif" font-size="24" font-weight="700">Defects</text>
+  <circle cx="132" cy="222" r="10" fill="#b45309"/>
+  <circle cx="172" cy="244" r="10" fill="#b45309"/>
+  <circle cx="214" cy="202" r="10" fill="#b45309"/>
+  <rect x="382" y="92" width="196" height="220" rx="16" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+  <text x="418" y="156" fill="#114b48" font-family="Arial, sans-serif" font-size="24" font-weight="700">Sections</text>
+  <path d="M424 238h112M424 204h112M424 272h112" stroke="#0f766e" stroke-width="8" stroke-linecap="round"/>
+  <rect x="692" y="92" width="196" height="220" rx="16" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+  <text x="736" y="156" fill="#114b48" font-family="Arial, sans-serif" font-size="24" font-weight="700">Word</text>
+  <rect x="742" y="196" width="96" height="18" rx="9" fill="#0f766e"/>
+  <rect x="742" y="232" width="96" height="18" rx="9" fill="#94a3b8"/>
+  <g fill="none" stroke="#114b48" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M278 202h82"/>
+    <path d="M341 178l30 24-30 24"/>
+    <path d="M588 202h82"/>
+    <path d="M651 178l30 24-30 24"/>
+  </g>
+</svg>

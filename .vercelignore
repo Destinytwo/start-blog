@@ -1,0 +1,9 @@
+source-assets/
+dist/
+node_modules/
+.astro/
+.vercel/
+*.log
+*.backup
+cache/
+tmp/

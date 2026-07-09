@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">2D to 3D linkage flow</title>
+  <desc id="desc">A schematic flow from image bbox and camera pose to 3D marker.</desc>
+  <rect width="960" height="420" fill="#eef3ef"/>
+  <rect x="54" y="78" width="210" height="230" rx="16" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+  <rect x="104" y="146" width="72" height="44" fill="none" stroke="#b45309" stroke-width="6"/>
+  <text x="88" y="352" fill="#354250" font-family="Arial, sans-serif" font-size="23">2D bbox</text>
+  <rect x="375" y="78" width="210" height="230" rx="16" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+  <circle cx="480" cy="170" r="34" fill="#0f766e"/>
+  <path d="M480 170l64 78" stroke="#114b48" stroke-width="6" stroke-linecap="round"/>
+  <text x="410" y="352" fill="#354250" font-family="Arial, sans-serif" font-size="23">Camera ray</text>
+  <rect x="696" y="78" width="210" height="230" rx="16" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+  <path d="M744 254l52-120 68 120z" fill="#0f766e" opacity="0.82"/>
+  <circle cx="817" cy="196" r="12" fill="#b45309"/>
+  <text x="740" y="352" fill="#354250" font-family="Arial, sans-serif" font-size="23">3D marker</text>
+  <g fill="none" stroke="#114b48" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M286 194h68"/>
+    <path d="M335 170l30 24-30 24"/>
+    <path d="M607 194h68"/>
+    <path d="M656 170l30 24-30 24"/>
+  </g>
+</svg>

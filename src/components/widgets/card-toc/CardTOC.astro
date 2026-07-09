@@ -1,0 +1,269 @@
+---
+/**
+ * CardTOC - 卡片式目录组件
+ * 使用 WidgetLayout (竖线+标题封装)
+ * 复用 TOCManager 逻辑
+ */
+
+import "@/styles/toc.css";
+
+import type { MarkdownHeading } from "astro";
+import { siteConfig } from "@/config";
+
+import I18nKey from "../../../i18n/i18nKey";
+import { i18n } from "../../../i18n/translation";
+import WidgetLayout from "../common/WidgetLayout.astro";
+
+interface Props {
+	class?: string;
+	style?: string;
+	headings?: MarkdownHeading[];
+}
+
+const { class: className, style } = Astro.props;
+const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
+---
+
+<WidgetLayout
+	name={i18n(I18nKey.tableOfContents)}
+	id="card-toc"
+	class={"group card-toc-widget " + (className || "")}
+	style={style}
+>
+	<div data-card-toc-root data-japanese-badge={String(useJapaneseBadge)}>
+		<div class="toc-scroll-container">
+			<div class="toc-content" data-card-toc-content></div>
+		</div>
+	</div>
+</WidgetLayout>
+
+<style>
+	:global(widget-layout.card-toc-widget) {
+		display: flex;
+		flex-direction: column;
+		max-height: var(
+			--card-toc-max-height,
+			min(62vh, calc(100vh - 12rem))
+		);
+	}
+
+	:global(widget-layout.card-toc-widget #card-toc) {
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+
+	[data-card-toc-root] {
+		height: 100%;
+		min-height: 0;
+	}
+
+	.toc-scroll-container {
+		height: 100%;
+		max-height: var(
+			--card-toc-scroll-max-height,
+			min(62vh, calc(100vh - 12rem))
+		);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		padding-right: 0.125rem;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+
+	.toc-scroll-container::-webkit-scrollbar {
+		display: none;
+		width: 0;
+		height: 0;
+	}
+</style>
+
+<script>
+	import { TOCManager } from "@/utils/tocManager";
+
+	const SITE_STATS_SELECTOR = 'widget-layout[data-id="site-stats"]';
+	const cardTocManagers = new WeakMap();
+	let cardTocResizeObserver: ResizeObserver | null = null;
+
+	/**
+	 * 为单个 card-toc 实例初始化目录。
+	 * 目录绑定当前组件自己的内容容器，避免左侧多断点并存时命中隐藏实例。
+	 */
+	function initCardTOC(root: Element) {
+		if (!(root instanceof HTMLElement)) {
+			return;
+		}
+
+		const tocContent = root.querySelector("[data-card-toc-content]");
+		if (!(tocContent instanceof HTMLElement)) {
+			return;
+		}
+
+		try {
+			const existingManager = cardTocManagers.get(root);
+			if (
+				existingManager &&
+				typeof existingManager.cleanup === "function"
+			) {
+				existingManager.cleanup();
+			}
+
+			const useJapaneseBadge = root.dataset.japaneseBadge === "true";
+
+			const manager = new TOCManager({
+				contentElement: tocContent,
+				maxLevel: 3,
+				useJapaneseBadge,
+				scrollOffset: 80,
+			});
+
+			cardTocManagers.set(root, manager);
+			manager.init();
+			syncCardTOCHeight();
+		} catch (error) {
+			if (typeof reportError === "function" && error instanceof Error) {
+				reportError(error);
+			}
+		}
+	}
+
+	/**
+	 * 页面内可能同时存在多个 card-toc 实例。
+	 * 统一批量初始化，确保可见和隐藏实例都各自绑定正确容器。
+	 */
+	function initAllCardTOCs() {
+		document.querySelectorAll("[data-card-toc-root]").forEach((root) => {
+			initCardTOC(root);
+		});
+		syncCardTOCHeight();
+		observeSiteStatsHeight();
+	}
+
+	function getVisibleElementHeight(element: Element | null) {
+		if (!(element instanceof HTMLElement)) {
+			return 0;
+		}
+
+		const rect = element.getBoundingClientRect();
+		return rect.height > 0 ? rect.height : 0;
+	}
+
+	function getSiteStatsHeight() {
+		const visibleHeights = Array.from(
+			document.querySelectorAll(SITE_STATS_SELECTOR),
+		)
+			.map((element) => getVisibleElementHeight(element))
+			.filter((height) => height > 0);
+
+		return visibleHeights.length > 0 ? Math.max(...visibleHeights) : 0;
+	}
+
+	function getOuterBlockSize(element: Element | null) {
+		if (!(element instanceof HTMLElement)) {
+			return 0;
+		}
+
+		const styles = getComputedStyle(element);
+		return (
+			element.offsetHeight +
+			Number.parseFloat(styles.marginTop || "0") +
+			Number.parseFloat(styles.marginBottom || "0")
+		);
+	}
+
+	function syncCardTOCHeight() {
+		const siteStatsHeight = getSiteStatsHeight();
+		if (siteStatsHeight <= 0) {
+			return;
+		}
+
+		document
+			.querySelectorAll("widget-layout.card-toc-widget")
+			.forEach((card) => {
+				if (!(card instanceof HTMLElement)) {
+					return;
+				}
+
+				const title = card.querySelector(":scope > .font-bold");
+				const content = card.querySelector("#card-toc");
+				const cardStyles = getComputedStyle(card);
+				const chromeHeight =
+					getOuterBlockSize(title) +
+					Number.parseFloat(cardStyles.paddingTop || "0") +
+					Number.parseFloat(cardStyles.paddingBottom || "0");
+				const scrollMaxHeight = Math.max(
+					0,
+					siteStatsHeight - chromeHeight,
+				);
+
+				card.style.setProperty(
+					"--card-toc-max-height",
+					`${siteStatsHeight}px`,
+				);
+				card.style.setProperty(
+					"--card-toc-scroll-max-height",
+					`${scrollMaxHeight}px`,
+				);
+
+				if (content instanceof HTMLElement) {
+					content.style.minHeight = "0";
+				}
+			});
+	}
+
+	function observeSiteStatsHeight() {
+		if (cardTocResizeObserver) {
+			cardTocResizeObserver.disconnect();
+			cardTocResizeObserver = null;
+		}
+
+		const siteStatsCards = Array.from(
+			document.querySelectorAll(SITE_STATS_SELECTOR),
+		).filter((element): element is HTMLElement => element instanceof HTMLElement);
+
+		if (siteStatsCards.length === 0) {
+			return;
+		}
+
+		cardTocResizeObserver = new ResizeObserver(() => {
+			syncCardTOCHeight();
+		});
+		siteStatsCards.forEach((siteStatsCard) => {
+			cardTocResizeObserver?.observe(siteStatsCard);
+		});
+	}
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initAllCardTOCs);
+	} else {
+		initAllCardTOCs();
+	}
+
+	window.addEventListener("resize", syncCardTOCHeight);
+
+	document.addEventListener("swup:contentReplaced", () => {
+		setTimeout(initAllCardTOCs, 100);
+	});
+
+	document.addEventListener("astro:page-load", () => {
+		setTimeout(initAllCardTOCs, 100);
+	});
+
+	document.addEventListener("astro:after-swap", () => {
+		setTimeout(initAllCardTOCs, 100);
+	});
+
+	window.addEventListener("popstate", () => {
+		setTimeout(initAllCardTOCs, 200);
+	});
+
+	window.addEventListener("hashchange", () => {
+		if (!window.tocInternalNavigation) {
+			setTimeout(initAllCardTOCs, 100);
+		}
+		window.tocInternalNavigation = false;
+	});
+
+	document.addEventListener("password:decrypted", () => {
+		setTimeout(initAllCardTOCs, 200);
+	});
+</script>

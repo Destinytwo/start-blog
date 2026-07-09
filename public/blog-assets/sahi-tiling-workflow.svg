@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">SAHI tiling workflow</title>
+  <desc id="desc">A schematic image slicing and merging workflow.</desc>
+  <rect width="960" height="420" fill="#eef3ef"/>
+  <rect x="60" y="68" width="250" height="250" fill="#ffffff" stroke="#cbd8d1" stroke-width="3"/>
+  <g stroke="#0f766e" stroke-width="2">
+    <path d="M143 68v250M226 68v250M60 151h250M60 234h250"/>
+  </g>
+  <rect x="198" y="178" width="34" height="24" fill="none" stroke="#b45309" stroke-width="5"/>
+  <text x="96" y="356" fill="#354250" font-family="Arial, sans-serif" font-size="24">High-res image</text>
+  <path d="M350 193h118" stroke="#114b48" stroke-width="8" stroke-linecap="round"/>
+  <path d="M449 169l34 24-34 24" fill="none" stroke="#114b48" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(536 82)">
+    <rect width="90" height="90" fill="#ffffff" stroke="#cbd8d1" stroke-width="3"/>
+    <rect x="112" width="90" height="90" fill="#ffffff" stroke="#cbd8d1" stroke-width="3"/>
+    <rect y="112" width="90" height="90" fill="#ffffff" stroke="#cbd8d1" stroke-width="3"/>
+    <rect x="112" y="112" width="90" height="90" fill="#ffffff" stroke="#cbd8d1" stroke-width="3"/>
+    <rect x="130" y="40" width="36" height="22" fill="none" stroke="#b45309" stroke-width="5"/>
+  </g>
+  <text x="566" y="356" fill="#354250" font-family="Arial, sans-serif" font-size="24">Slice, detect, merge</text>
+</svg>

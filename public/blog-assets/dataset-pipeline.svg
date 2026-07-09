@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Dataset preparation pipeline</title>
+  <desc id="desc">A schematic dataset review, conversion, labeling, and training pipeline.</desc>
+  <rect width="960" height="420" fill="#f5f7f2"/>
+  <g font-family="Arial, sans-serif" font-size="22" font-weight="700">
+    <rect x="54" y="126" width="150" height="120" rx="14" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+    <text x="86" y="194" fill="#114b48">Review</text>
+    <rect x="276" y="126" width="150" height="120" rx="14" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+    <text x="304" y="194" fill="#114b48">Convert</text>
+    <rect x="498" y="126" width="150" height="120" rx="14" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+    <text x="538" y="194" fill="#114b48">Label</text>
+    <rect x="720" y="126" width="150" height="120" rx="14" fill="#ffffff" stroke="#d9e2dc" stroke-width="3"/>
+    <text x="754" y="194" fill="#114b48">Train</text>
+  </g>
+  <g fill="none" stroke="#0f766e" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M204 186h72"/>
+    <path d="M257 162l30 24-30 24"/>
+    <path d="M426 186h72"/>
+    <path d="M479 162l30 24-30 24"/>
+    <path d="M648 186h72"/>
+    <path d="M701 162l30 24-30 24"/>
+  </g>
+  <text x="216" y="314" fill="#5b6472" font-family="Arial, sans-serif" font-size="22">Only clean, consistent labels enter training</text>
+</svg>
