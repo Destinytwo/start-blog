@@ -2,6 +2,40 @@ import type { TimelineItem } from "../components/features/timeline/types";
 
 export const timelineData: TimelineItem[] = [
 	{
+		id: "wuhan-surveying-algorithm-intern",
+		title: "武汉市测绘研究院算法实习",
+		description:
+			"围绕建筑外立面巡检与三维测绘数据应用场景，参与建筑缺陷检测系统科研项目，把无人机航拍影像、实景三维模型、目标检测、人工复核和报告导出串成完整系统原型。",
+		type: "internship",
+		startDate: "2026-03-01",
+		endDate: "2026-07-31",
+		location: "武汉",
+		organization: "武汉市测绘研究院",
+		position: "算法实习生",
+		skills: ["Python", "PyQt5", "FastAPI", "SAHI", "Ultralytics", "OSGB", "SQLite"],
+		projects: [
+			{
+				name: "基于实景三维模型的建筑物缺陷检测系统",
+				summary:
+					"完成项目管理、三维模型加载、二维影像检测、缺陷空间定位、LabelMe 修正和 Word 报告导出。",
+				url: "/posts/project-building-defect-3d-system/",
+			},
+			{
+				name: "二维缺陷框到三维模型红点映射",
+				summary:
+					"结合空三参数和模型坐标转换，将二维检测结果映射到三维空间，并处理多照片重复缺陷合并。",
+				url: "/posts/defect-2d-to-3d-red-marker/",
+			},
+		],
+		achievements: [
+			"把算法实验推进到可交互、可复核、可导出报告的工程闭环。",
+			"沉淀了 PyQt 客户端、FastAPI 推理服务、OSGB 可视化和文档生成经验。",
+		],
+		icon: "material-symbols:domain-rounded",
+		color: "#16A34A",
+		featured: true,
+	},
+	{
 		id: "entest-test-dev-intern",
 		title: "智能网联车载系统测试开发实习",
 		description:
@@ -66,29 +100,6 @@ export const timelineData: TimelineItem[] = [
 		featured: true,
 	},
 	{
-		id: "power-risk-recognition",
-		title: "电力作业风险识别创新项目",
-		description:
-			"围绕电力作业现场风险识别需求，参与视觉算法方案设计与项目立项材料整理，重点关注作业目标、风险行为和场景约束。",
-		type: "project",
-		startDate: "2025-04-01",
-		endDate: "2025-12-31",
-		location: "武汉",
-		organization: "创新创业训练计划",
-		position: "国家级立项项目",
-		skills: ["计算机视觉", "目标检测", "风险识别", "项目申报"],
-		projects: [
-			{
-				name: "电力作业风险识别",
-				summary:
-					"面向安全作业场景梳理风险类别、数据采集方式和视觉检测流程，为后续模型训练与系统验证做准备。",
-			},
-		],
-		achievements: ["项目获得国家级立项。"],
-		icon: "material-symbols:electric-bolt-rounded",
-		color: "#9333EA",
-	},
-	{
 		id: "uav-smalldet-lab",
 		title: "无人机小目标检测研究",
 		description:
@@ -121,39 +132,6 @@ export const timelineData: TimelineItem[] = [
 		icon: "material-symbols:drone-rounded",
 		color: "#7C3AED",
 		featured: true,
-	},
-	{
-		id: "building-defect-system-lab",
-		title: "建筑缺陷检测系统工程实践",
-		description:
-			"围绕建筑外立面巡检场景，把无人机航拍影像、实景三维模型、目标检测、人工复核和报告导出串成完整系统原型。",
-		type: "lab",
-		startDate: "2024-11-01",
-		endDate: "2025-06-30",
-		location: "武汉",
-		organization: "本科生导师实验室",
-		position: "视觉 / 三维系统开发",
-		skills: ["Python", "PyQt5", "FastAPI", "SAHI", "Ultralytics", "OSGB", "SQLite"],
-		projects: [
-			{
-				name: "基于实景三维模型的建筑物缺陷检测系统",
-				summary:
-					"完成项目管理、三维模型加载、二维影像检测、缺陷空间定位、LabelMe 修正和 Word 报告导出。",
-				url: "/posts/project-building-defect-3d-system/",
-			},
-			{
-				name: "二维缺陷框到三维模型红点映射",
-				summary:
-					"结合空三参数和模型坐标转换，将二维检测结果映射到三维空间，并处理多照片重复缺陷合并。",
-				url: "/posts/defect-2d-to-3d-red-marker/",
-			},
-		],
-		achievements: [
-			"把算法实验推进到可交互、可复核、可导出报告的工程闭环。",
-			"沉淀了 PyQt 客户端、FastAPI 推理服务、OSGB 可视化和文档生成经验。",
-		],
-		icon: "material-symbols:domain-rounded",
-		color: "#16A34A",
 	},
 	{
 		id: "surveying-gis-competition",

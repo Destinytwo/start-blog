@@ -7,7 +7,7 @@ import type { TimelineCardProps } from "./types";
 
 const { item } = Astro.props as TimelineCardProps;
 
-const isCurrent = !item.endDate;
+const isCurrent = !item.endDate || new Date(item.endDate) >= new Date();
 
 const getTypeIcon = (type: string) => {
 	switch (type) {

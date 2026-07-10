@@ -12,7 +12,7 @@ if (!siteConfig.featurePages.timeline) {
 	return Astro.redirect("/404/");
 }
 
-const types = ["internship", "competition", "lab", "project"] as const;
+const types = ["internship", "competition", "lab"] as const;
 
 const getTypeIcon = (type: string) => {
 	switch (type) {
