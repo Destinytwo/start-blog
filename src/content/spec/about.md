@@ -11,6 +11,7 @@
 - GitHub：[Funnyfyl](https://github.com/Funnyfyl)
 - 邮箱：[funny_fyl@163.com](mailto:funny_fyl@163.com)
 - 微信：lyf18972211592
+- 小红书：[xhslink.com/m/XRs78CJdNs](https://xhslink.com/m/XRs78CJdNs)
 
 ## 我的方向
 

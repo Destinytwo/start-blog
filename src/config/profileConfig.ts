@@ -24,5 +24,10 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa7-brands:weixin",
 			url: "/about/#contact",
 		},
+		{
+			name: "小红书",
+			icon: "simple-icons:xiaohongshu",
+			url: "https://xhslink.com/m/XRs78CJdNs",
+		},
 	],
 };
