@@ -1,0 +1,220 @@
+---
+import { MomentCard } from "@components/features/moments";
+import { PageHeader } from "@components/features/page-header";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
+
+import { momentsConfig, siteConfig } from "../config";
+import { getMomentsList } from "../data/moments";
+
+if (!siteConfig.featurePages.moments) {
+	return Astro.redirect("/404/");
+}
+
+const moments = getMomentsList();
+const title = "说说";
+const subtitle = "记录一些短想法、当日状态和不需要写成长文的小片段。";
+const commentRepo = momentsConfig.comments.repo;
+const commentLabel = momentsConfig.comments.label;
+---
+
+<MainGridLayout title={title} description={subtitle}>
+	<script>
+		import("../scripts/right-sidebar-layout.js");
+		import { loadIconify } from "../utils/icon-loader";
+
+		loadIconify().catch((error) => {
+			console.error("Failed to load Iconify:", error);
+		});
+	</script>
+
+	<div
+		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
+	>
+		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
+			<div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+				<PageHeader title={title} subtitle={subtitle} class="mb-0" />
+
+				<div
+					class="shrink-0 inline-flex items-center gap-2 rounded-lg border border-black/10 dark:border-white/10 bg-(--btn-regular-bg) px-3 py-2 text-sm text-black/65 dark:text-white/65"
+				>
+					<Icon
+						name="material-symbols:forum"
+						class="h-4 w-4 text-(--primary)"
+					/>
+					<span>{moments.length} 条</span>
+				</div>
+			</div>
+
+			<div
+				class="mt-8 flex flex-wrap items-center justify-between gap-3 border-y border-black/10 dark:border-white/10 py-4"
+			>
+				<div class="text-sm text-black/50 dark:text-white/50">
+					按时间浏览
+				</div>
+				<div class="flex gap-2" id="moments-sort-controls">
+					<button
+						type="button"
+						class="moments-sort-btn btn-regular active rounded-lg px-3 py-2 text-sm font-medium"
+						data-sort="desc"
+					>
+						最新
+					</button>
+					<button
+						type="button"
+						class="moments-sort-btn btn-regular rounded-lg px-3 py-2 text-sm font-medium"
+						data-sort="asc"
+					>
+						最早
+					</button>
+				</div>
+			</div>
+
+			<div id="moments-list" class="mt-6 space-y-5">
+				{
+					moments.map((moment, index) => (
+						<MomentCard
+							moment={moment}
+							index={index}
+							commentRepo={commentRepo}
+							commentLabel={commentLabel}
+						/>
+					))
+				}
+			</div>
+
+			{
+				moments.length === 0 && (
+					<div class="py-16 text-center">
+						<Icon
+							name="material-symbols:edit-note"
+							class="mb-4 text-6xl text-black/15 dark:text-white/15"
+						/>
+						<p class="text-lg text-black/40 dark:text-white/40">
+							还没有说说
+						</p>
+					</div>
+				)
+			}
+		</div>
+	</div>
+
+	<script is:inline define:vars={{ commentsEnabled: momentsConfig.comments.enable }}>
+		(function () {
+			const COMMENT_SELECTOR = ".utterances-comments";
+
+			function getTheme() {
+				const isDark =
+					document.documentElement.classList.contains("dark") ||
+					document.documentElement
+						.getAttribute("data-theme")
+						?.includes("dark");
+				return isDark ? "github-dark" : "github-light";
+			}
+
+			function loadUtterances(container) {
+				if (!commentsEnabled || container.dataset.loaded === "true") {
+					return;
+				}
+
+				container.dataset.loaded = "true";
+				container.innerHTML = "";
+
+				const script = document.createElement("script");
+				script.src = "https://utteranc.es/client.js";
+				script.setAttribute("repo", container.dataset.repo || "");
+				script.setAttribute("issue-term", container.dataset.term || "");
+				script.setAttribute("label", container.dataset.label || "moments");
+				script.setAttribute("theme", getTheme());
+				script.setAttribute("crossorigin", "anonymous");
+				script.async = true;
+				container.appendChild(script);
+			}
+
+			function initComments() {
+				document.querySelectorAll(COMMENT_SELECTOR).forEach((container) => {
+					const details = container.closest("details");
+					if (details) {
+						if (details.open) {
+							loadUtterances(container);
+						}
+						if (details.dataset.commentsBound === "true") {
+							return;
+						}
+						details.dataset.commentsBound = "true";
+						details.addEventListener("toggle", () => {
+							if (details.open) {
+								loadUtterances(container);
+							}
+						});
+						return;
+					}
+
+					loadUtterances(container);
+				});
+			}
+
+			function updateUtterancesTheme() {
+				document.querySelectorAll("iframe.utterances-frame").forEach((iframe) => {
+					iframe.contentWindow?.postMessage(
+						{ type: "set-theme", theme: getTheme() },
+						"https://utteranc.es",
+					);
+				});
+			}
+
+			function initSorting() {
+				const list = document.getElementById("moments-list");
+				const controls = document.getElementById("moments-sort-controls");
+				if (!list || !controls) {
+					return;
+				}
+
+				controls.querySelectorAll(".moments-sort-btn").forEach((button) => {
+					button.addEventListener("click", () => {
+						const sort = button.dataset.sort || "desc";
+						const cards = Array.from(list.children);
+						cards.sort((a, b) => {
+							const aTime = new Date(a.dataset.published || "").getTime();
+							const bTime = new Date(b.dataset.published || "").getTime();
+							return sort === "asc" ? aTime - bTime : bTime - aTime;
+						});
+						cards.forEach((card) => list.appendChild(card));
+						controls
+							.querySelectorAll(".moments-sort-btn")
+							.forEach((item) => item.classList.remove("active"));
+						button.classList.add("active");
+					});
+				});
+			}
+
+			function init() {
+				initComments();
+				initSorting();
+			}
+
+			if (document.readyState === "loading") {
+				document.addEventListener("DOMContentLoaded", init);
+			} else {
+				init();
+			}
+
+			document.addEventListener("astro:page-load", init);
+			document.addEventListener("mizuki:page:loaded", init);
+
+			const themeObserver = new MutationObserver(updateUtterancesTheme);
+			themeObserver.observe(document.documentElement, {
+				attributes: true,
+				attributeFilter: ["class", "data-theme"],
+			});
+		})();
+	</script>
+</MainGridLayout>
+
+<style>
+	.moments-sort-btn.active {
+		background: var(--primary);
+		color: white;
+		border-color: var(--primary);
+	}
+</style>

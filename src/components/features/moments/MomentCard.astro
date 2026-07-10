@@ -1,0 +1,151 @@
+---
+import { Icon } from "astro-icon/components";
+
+import { profileConfig } from "../../../config";
+import type { MomentCardProps } from "./types";
+
+const { moment, index, commentRepo, commentLabel } =
+	Astro.props as MomentCardProps;
+
+const date = new Date(moment.published);
+const formattedDate = new Intl.DateTimeFormat("zh-CN", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+}).format(date);
+
+const commentTerm = `moments/${moment.id}`;
+const avatar = profileConfig.avatar ?? "/blog-assets/funny-avatar.webp";
+---
+
+<article
+	class="moment-card group rounded-xl border border-black/10 dark:border-white/10 bg-white/65 dark:bg-white/[0.04] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+	data-published={moment.published}
+>
+	<div class="p-5 sm:p-6">
+		<header class="flex items-start gap-3 sm:gap-4">
+			<a
+				href="/about/"
+				class="shrink-0 size-12 rounded-lg overflow-hidden bg-(--primary)/10"
+				aria-label="查看关于页"
+			>
+				<img
+					src={avatar}
+					alt={profileConfig.name}
+					class="h-full w-full object-cover"
+					loading={index === 0 ? "eager" : "lazy"}
+				/>
+			</a>
+
+			<div class="min-w-0 flex-1">
+				<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+					<a
+						href="/about/"
+						class="font-bold text-black/90 dark:text-white/90 hover:text-(--primary) transition-colors"
+					>
+						{profileConfig.name}
+					</a>
+					<span
+						class="px-2 py-0.5 rounded-md bg-(--primary)/10 text-(--primary) text-xs font-medium"
+					>
+						说说
+					</span>
+				</div>
+
+				<div
+					class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-black/45 dark:text-white/45"
+				>
+					<span class="inline-flex items-center gap-1">
+						<Icon
+							name="material-symbols:calendar-month"
+							class="h-3.5 w-3.5"
+						/>
+						<time datetime={moment.published}>{formattedDate}</time>
+					</span>
+					<span class="inline-flex items-center gap-1">
+						<Icon
+							name="material-symbols:location-on"
+							class="h-3.5 w-3.5"
+						/>
+						IP属地 {moment.ipLocation}
+					</span>
+				</div>
+			</div>
+		</header>
+
+		<div
+			class="mt-4 whitespace-pre-line text-base leading-7 text-black/85 dark:text-white/85"
+		>
+			{moment.content}
+		</div>
+
+		{
+			moment.tags && moment.tags.length > 0 && (
+				<div class="mt-4 flex flex-wrap gap-2">
+					{moment.tags.map((tag) => (
+						<span class="px-2 py-1 rounded-md bg-(--primary)/10 text-(--primary) text-xs font-medium">
+							#{tag}
+						</span>
+					))}
+				</div>
+			)
+		}
+
+		<details class="moment-comments mt-5" open={index === 0}>
+			<summary
+				class="btn-regular inline-flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium select-none"
+			>
+				<Icon
+					name="material-symbols:chat-bubble-outline-rounded"
+					class="h-4 w-4"
+				/>
+				GitHub 评论
+				<Icon
+					name="material-symbols:expand-more"
+					class="h-4 w-4 transition-transform duration-200 details-chevron"
+				/>
+			</summary>
+			<div
+				class="mt-4 rounded-lg border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.03] p-3"
+			>
+				<div
+					class="utterances-comments min-h-36"
+					data-repo={commentRepo}
+					data-term={commentTerm}
+					data-label={commentLabel}
+				>
+				</div>
+			</div>
+		</details>
+	</div>
+</article>
+
+<style>
+	.moment-card {
+		animation: momentFadeIn 0.5s ease-out forwards;
+		opacity: 0;
+	}
+
+	.moment-card.filtered-out {
+		display: none;
+	}
+
+	.moment-comments > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.moment-comments[open] .details-chevron {
+		transform: rotate(180deg);
+	}
+
+	@keyframes momentFadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>

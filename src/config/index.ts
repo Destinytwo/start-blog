@@ -64,6 +64,7 @@ export { footerConfig } from "./footerConfig";
 export { licenseConfig } from "./licenseConfig";
 // ─── 多媒体 ─────────────────────────────────────────────────
 export { musicPlayerConfig } from "./musicConfig";
+export { momentsConfig } from "./momentsConfig";
 // ─── 导航栏 ─────────────────────────────────────────────────
 export { navBarConfig } from "./navBarConfig";
 export { permalinkConfig } from "./permalinkConfig";

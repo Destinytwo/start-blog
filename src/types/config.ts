@@ -36,6 +36,7 @@ export interface SiteConfig {
 		anime: boolean; // 番剧页面开关
 		diary: boolean; // 日记页面开关
 		friends: boolean; // 友链页面开关
+		moments: boolean; // 说说页面开关
 		projects: boolean; // 项目页面开关
 		experience: boolean; // 经验页面开关
 		skills: boolean; // 技能页面开关

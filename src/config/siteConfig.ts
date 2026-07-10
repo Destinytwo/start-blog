@@ -17,6 +17,7 @@ export const siteConfig: SiteConfig = {
 		anime: false,
 		diary: false,
 		friends: false,
+		moments: true,
 		projects: true,
 		experience: true,
 		skills: false,
