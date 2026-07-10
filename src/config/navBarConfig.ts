@@ -6,11 +6,6 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Home,
 		LinkPreset.Archive,
 		{
-			name: "说说",
-			url: "/moments/",
-			icon: "material-symbols:forum",
-		},
-		{
 			name: "项目",
 			url: "/projects/",
 			icon: "material-symbols:work",
@@ -19,6 +14,11 @@ export const navBarConfig: NavBarConfig = {
 			name: "经验",
 			url: "/experience/",
 			icon: "material-symbols:psychology-alt-rounded",
+		},
+		{
+			name: "说说",
+			url: "/moments/",
+			icon: "material-symbols:forum",
 		},
 		{
 			name: "关于",
