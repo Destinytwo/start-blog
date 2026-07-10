@@ -21,7 +21,7 @@ export const siteConfig: SiteConfig = {
 		projects: true,
 		experience: true,
 		skills: false,
-		timeline: false,
+		timeline: true,
 		albums: false,
 		devices: false,
 		aiTools: false,

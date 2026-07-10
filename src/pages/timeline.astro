@@ -7,25 +7,23 @@ import { Icon } from "astro-icon/components";
 
 import { siteConfig } from "../config";
 import { timelineData } from "../data/timeline";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
 
 if (!siteConfig.featurePages.timeline) {
 	return Astro.redirect("/404/");
 }
 
-const types = ["education", "work", "project", "achievement"] as const;
+const types = ["internship", "competition", "lab", "project"] as const;
 
 const getTypeIcon = (type: string) => {
 	switch (type) {
-		case "education":
-			return "material-symbols:school";
-		case "work":
+		case "internship":
 			return "material-symbols:work";
+		case "competition":
+			return "material-symbols:emoji-events";
+		case "lab":
+			return "material-symbols:science";
 		case "project":
 			return "material-symbols:code";
-		case "achievement":
-			return "material-symbols:emoji-events";
 		default:
 			return "material-symbols:apps";
 	}
@@ -33,14 +31,14 @@ const getTypeIcon = (type: string) => {
 
 const getTypeText = (type: string) => {
 	switch (type) {
-		case "education":
-			return i18n(I18nKey.timelineEducation);
-		case "work":
-			return i18n(I18nKey.timelineWork);
+		case "internship":
+			return "实习";
+		case "competition":
+			return "竞赛";
+		case "lab":
+			return "实验室";
 		case "project":
-			return i18n(I18nKey.timelineProject);
-		case "achievement":
-			return i18n(I18nKey.timelineAchievement);
+			return "项目";
 		default:
 			return type;
 	}
@@ -49,7 +47,7 @@ const getTypeText = (type: string) => {
 const filterTabs = [
 	{
 		value: "all",
-		label: i18n(I18nKey.friendsFilterAll),
+		label: "全部",
 		icon: "material-symbols:apps",
 		count: timelineData.length,
 	},
@@ -61,8 +59,8 @@ const filterTabs = [
 	})),
 ];
 
-const title = i18n(I18nKey.timeline);
-const subtitle = i18n(I18nKey.timelineSubtitle);
+const title = "经历";
+const subtitle = "按时间整理实习、竞赛、实验室和项目经历。";
 ---
 
 <MainGridLayout title={title} description={subtitle}>
@@ -97,7 +95,7 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
 					class="text-6xl text-black/15 dark:text-white/15 mb-4"
 				/>
 				<p class="text-black/40 dark:text-white/40 text-lg">
-					No matching items
+					没有匹配的经历
 				</p>
 			</div>
 		</div>

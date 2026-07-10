@@ -11,14 +11,14 @@ const isCurrent = !item.endDate;
 
 const getTypeIcon = (type: string) => {
 	switch (type) {
-		case "education":
-			return "material-symbols:school";
-		case "work":
+		case "internship":
 			return "material-symbols:work";
+		case "competition":
+			return "material-symbols:emoji-events";
 		case "project":
 			return "material-symbols:code";
-		case "achievement":
-			return "material-symbols:emoji-events";
+		case "lab":
+			return "material-symbols:science";
 		default:
 			return "material-symbols:event";
 	}
@@ -26,14 +26,14 @@ const getTypeIcon = (type: string) => {
 
 const getTypeText = (type: string) => {
 	switch (type) {
-		case "education":
-			return i18n(I18nKey.timelineEducation);
-		case "work":
-			return i18n(I18nKey.timelineWork);
+		case "internship":
+			return "实习";
+		case "competition":
+			return "竞赛";
 		case "project":
-			return i18n(I18nKey.timelineProject);
-		case "achievement":
-			return i18n(I18nKey.timelineAchievement);
+			return "项目";
+		case "lab":
+			return "实验室";
 		default:
 			return type;
 	}
@@ -83,6 +83,7 @@ const dateRange = `${formatDate(item.startDate)} - ${item.endDate ? formatDate(i
 const duration = getDuration(item.startDate, item.endDate);
 const nodeColor = isCurrent ? "#22c55e" : item.color || "var(--primary)";
 const hasLinks = item.links && item.links.length > 0;
+const hasProjects = item.projects && item.projects.length > 0;
 ---
 
 <div
@@ -169,10 +170,51 @@ const hasLinks = item.links && item.links.length > 0;
 			}
 
 			{
+				hasProjects && (
+					<div class="mb-4">
+						<h4 class="text-xs font-semibold text-black/50 dark:text-white/50 uppercase tracking-wider mb-2">
+							关联项目
+						</h4>
+						<div class="space-y-3">
+							{item.projects!.map((project) => (
+								<div class="border-l-2 border-(--primary)/40 pl-3">
+									<div class="flex items-start gap-2">
+										<Icon
+											name="material-symbols:subdirectory-arrow-right-rounded"
+											class="mt-0.5 h-4 w-4 shrink-0 text-(--primary)"
+										/>
+										<div class="min-w-0">
+											{
+												project.url ? (
+													<a
+														href={project.url}
+														class="text-sm font-semibold text-black/80 dark:text-white/80 hover:text-(--primary) transition-colors"
+													>
+														{project.name}
+													</a>
+												) : (
+													<div class="text-sm font-semibold text-black/80 dark:text-white/80">
+														{project.name}
+													</div>
+												)
+											}
+											<p class="mt-1 text-sm leading-relaxed text-black/60 dark:text-white/60">
+												{project.summary}
+											</p>
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				)
+			}
+
+			{
 				item.achievements && item.achievements.length > 0 && (
 					<div class="mb-4">
 						<h4 class="text-xs font-semibold text-black/50 dark:text-white/50 uppercase tracking-wider mb-2">
-							{i18n(I18nKey.timelineAchievements)}
+							成果
 						</h4>
 						<ul class="space-y-1.5">
 							{item.achievements.map((achievement) => (

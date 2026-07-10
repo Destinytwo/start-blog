@@ -4,17 +4,24 @@ export interface TimelineLink {
 	type: "website" | "certificate" | "project" | "other";
 }
 
+export interface TimelineProject {
+	name: string;
+	summary: string;
+	url?: string;
+}
+
 export interface TimelineItem {
 	id: string;
 	title: string;
 	description: string;
-	type: "education" | "work" | "project" | "achievement";
+	type: "internship" | "competition" | "project" | "lab";
 	startDate: string;
 	endDate?: string;
 	location?: string;
 	organization?: string;
 	position?: string;
 	skills?: string[];
+	projects?: TimelineProject[];
 	achievements?: string[];
 	links?: TimelineLink[];
 	icon?: string;

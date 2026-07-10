@@ -16,6 +16,11 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:psychology-alt-rounded",
 		},
 		{
+			name: "经历",
+			url: "/timeline/",
+			icon: "material-symbols:timeline",
+		},
+		{
 			name: "说说",
 			url: "/moments/",
 			icon: "material-symbols:forum",
