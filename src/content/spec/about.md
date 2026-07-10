@@ -4,6 +4,14 @@
 
 我关注的方向是计算机视觉、无人机目标检测和工程化系统开发。这个网站主要用来整理我的项目、论文笔记和技术复盘，也作为一个持续更新的个人技术档案。
 
+<a id="contact"></a>
+
+## 联系方式
+
+- GitHub：[Funnyfyl](https://github.com/Funnyfyl)
+- 邮箱：[funny_fyl@163.com](mailto:funny_fyl@163.com)
+- 微信：lyf18972211592
+
 ## 我的方向
 
 我目前主要围绕两条主线积累：

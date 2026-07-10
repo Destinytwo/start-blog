@@ -12,7 +12,17 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "GitHub",
 			icon: "fa7-brands:github",
-			url: "https://github.com/your-name",
+			url: "https://github.com/Funnyfyl",
+		},
+		{
+			name: "Email",
+			icon: "material-symbols:mail-outline",
+			url: "mailto:funny_fyl@163.com",
+		},
+		{
+			name: "微信",
+			icon: "fa7-brands:weixin",
+			url: "/about/#contact",
 		},
 	],
 };
