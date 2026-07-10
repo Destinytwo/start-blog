@@ -15,6 +15,16 @@ export const profileConfig: ProfileConfig = {
 			url: "https://github.com/Funnyfyl",
 		},
 		{
+			name: "知乎",
+			icon: "simple-icons:zhihu",
+			url: "https://www.zhihu.com/people/li-yi-fan-96-1",
+		},
+		{
+			name: "CSDN",
+			icon: "simple-icons:csdn",
+			url: "https://blog.csdn.net/qq_75045269?type=blog",
+		},
+		{
 			name: "Email",
 			icon: "material-symbols:mail-outline",
 			url: "mailto:funny_fyl@163.com",

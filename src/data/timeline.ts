@@ -185,7 +185,7 @@ export const timelineData: TimelineItem[] = [
 	},
 	{
 		id: "robocon-jiangyin-onsite-competition",
-		title: "Robocon 四足视觉模块与江阴现场参赛",
+		title: "江阴 Robocon 现场参赛",
 		description:
 			"作为队长带队前往江苏无锡江阴市参加全国大学生机器人大赛 Robocon，负责现场组织、视觉模块联调和比赛流程协同。",
 		type: "competition",
@@ -206,6 +206,33 @@ export const timelineData: TimelineItem[] = [
 		],
 		achievements: ["获得全国三等奖两项。"],
 		icon: "material-symbols:flag-rounded",
+		color: "#EA580C",
+		featured: true,
+	},
+	{
+		id: "robocon-quadruped-vision-module",
+		title: "Robocon 仿生四足机器人视觉模块",
+		description:
+			"面向全国大学生机器人大赛 Robocon 的仿生四足机器人竞速任务，负责视觉模块开发与调试，把赛道识别结果转化为可用于控制决策的路径信息。",
+		type: "competition",
+		startDate: "2024-03-01",
+		endDate: "2024-07-09",
+		location: "武汉",
+		organization: "全国大学生机器人大赛 Robocon",
+		position: "队长 / 视觉模块负责人",
+		skills: ["OpenCV", "Jetson Nano", "C++", "图像处理", "视觉引导"],
+		projects: [
+			{
+				name: "仿生四足机器人视觉模块",
+				summary:
+					"基于 OpenCV 完成灰度化、阈值分割、边缘提取和中线拟合，部署在 Jetson Nano 上实现低延迟路径识别。",
+			},
+		],
+		achievements: [
+			"完成从视觉识别、边缘提取到赛前联调的模块闭环。",
+			"沉淀了嵌入式视觉部署和机器人现场调试经验。",
+		],
+		icon: "material-symbols:smart-toy-rounded",
 		color: "#EA580C",
 		featured: true,
 	},
