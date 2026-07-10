@@ -3,7 +3,7 @@ import type { ProfileConfig } from "../types/config";
 export const profileConfig: ProfileConfig = {
 	avatar: "/blog-assets/funny-avatar.webp",
 	name: "Funny",
-	bio: "果壳er~｜计算机视觉 / 无人机目标检测",
+	bio: "计科 / 测科\n计算机视觉 / AI / 地震",
 	typewriter: {
 		enable: true,
 		speed: 80,

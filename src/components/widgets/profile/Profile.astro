@@ -53,7 +53,7 @@ const liveAvatar = "/blog-assets/funny-avatar-live.mp4";
 					<TypewriterText
 						text={profileConfig.bio || ""}
 						speed={profileConfig.typewriter.speed}
-						class="inline-block"
+						class="profile-bio-typewriter inline-block whitespace-pre-line leading-6"
 					/>
 				) : (
 					profileConfig.bio
@@ -113,6 +113,12 @@ const liveAvatar = "/blog-assets/funny-avatar-live.mp4";
 		</div>
 	</div>
 </div>
+
+<style>
+	:global(.profile-bio-typewriter) {
+		min-height: 3rem !important;
+	}
+</style>
 
 <script
 	is:inline
