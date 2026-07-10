@@ -1,0 +1,178 @@
+---
+import { Icon } from "astro-icon/components";
+
+import type { ExperienceCardProps } from "./types";
+
+const { topic, maxPosts = 3 } = Astro.props as ExperienceCardProps;
+
+const latestPosts = topic.posts.slice(0, maxPosts);
+const latestPost = latestPosts[0];
+const actionUrl = latestPost?.url ?? "/archive/";
+const actionText = latestPost ? "查看最新经验" : "查看文章归档";
+
+const statusText: Record<string, string> = {
+	collecting: "持续收集中",
+	"in-progress": "整理中",
+	stable: "已成体系",
+};
+
+const dateFormatter = new Intl.DateTimeFormat("zh-CN", {
+	month: "2-digit",
+	day: "2-digit",
+});
+
+const formatDate = (date: Date) => dateFormatter.format(new Date(date));
+---
+
+<div
+	class="experience-card group relative rounded-xl border border-black/10 dark:border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+	data-category={topic.category}
+>
+	<div class="p-5 sm:p-6">
+		<div class="flex items-start justify-between gap-4 mb-5">
+			<div
+				class="size-12 rounded-lg bg-linear-to-br from-(--primary)/20 via-(--primary)/10 to-transparent flex items-center justify-center text-(--primary) shadow-sm"
+			>
+				<Icon name={topic.icon} class="text-2xl w-7 h-7" />
+			</div>
+
+			<div class="flex items-center gap-2">
+				{
+					topic.featured && (
+						<Icon
+							name="material-symbols:star-rounded"
+							class="text-(--primary) text-xl w-5 h-5"
+						/>
+					)
+				}
+				<span
+					class="shrink-0 px-2 py-0.5 text-xs rounded-md bg-(--primary)/10 text-(--primary) font-medium"
+				>
+					{statusText[topic.status] ?? topic.status}
+				</span>
+			</div>
+		</div>
+
+		<div class="mb-4">
+			<h3
+				class="text-xl font-bold text-black/90 dark:text-white/90 group-hover:text-(--primary) transition-colors duration-200"
+			>
+				{topic.title}
+			</h3>
+			<p class="mt-2 text-sm leading-6 text-black/60 dark:text-white/60">
+				{topic.description}
+			</p>
+		</div>
+
+		<div class="flex flex-wrap gap-2 mb-5">
+			{
+				topic.focus.slice(0, 5).map((item) => (
+					<span class="px-2 py-1 text-xs rounded-md bg-(--primary)/10 text-(--primary) font-medium">
+						{item}
+					</span>
+				))
+			}
+		</div>
+
+		<div
+			class="flex items-center justify-between gap-4 py-3 border-y border-black/10 dark:border-white/10"
+		>
+			<div class="flex items-center gap-2 text-sm text-black/55 dark:text-white/55">
+				<Icon
+					name="material-symbols:article-outline-rounded"
+					class="text-base w-4 h-4 text-(--primary)"
+				/>
+				<span>{topic.posts.length} 篇文章</span>
+			</div>
+			{
+				latestPost && (
+					<div class="text-xs text-black/40 dark:text-white/40">
+						更新于 {formatDate(latestPost.data.published)}
+					</div>
+				)
+			}
+		</div>
+
+		<div class="pt-4 min-h-24">
+			{
+				latestPosts.length > 0 ? (
+					<ul class="space-y-3">
+						{latestPosts.map((post) => (
+							<li>
+								<a
+									href={post.url ?? `/posts/${post.id}/`}
+									class="group/link flex items-center justify-between gap-3 text-sm"
+								>
+									<span class="min-w-0 truncate text-black/70 dark:text-white/70 group-hover/link:text-(--primary) transition-colors">
+										{post.data.title}
+									</span>
+									<span class="shrink-0 text-xs text-black/35 dark:text-white/35">
+										{formatDate(post.data.published)}
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				) : (
+					<div class="flex items-center gap-2 text-sm text-black/45 dark:text-white/45">
+						<Icon
+							name="material-symbols:edit-note-rounded"
+							class="text-lg w-5 h-5 text-(--primary)"
+						/>
+						<span>等待相关复盘文章</span>
+					</div>
+				)
+			}
+		</div>
+
+		<a
+			href={actionUrl}
+			class="btn-regular mt-5 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium"
+		>
+			<Icon
+				name="material-symbols:arrow-forward-rounded"
+				class="text-base w-4 h-4"
+			/>
+			{actionText}
+		</a>
+	</div>
+
+	<div
+		class="absolute inset-0 bg-linear-to-br from-(--primary)/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+	>
+	</div>
+</div>
+
+<style>
+	.experience-card {
+		animation: fadeInUp 0.5s ease-out forwards;
+		opacity: 0;
+	}
+
+	.experience-card.filtered-out {
+		display: none;
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.experience-card:nth-child(1) {
+		animation-delay: 0.05s;
+	}
+
+	.experience-card:nth-child(2) {
+		animation-delay: 0.1s;
+	}
+
+	.experience-card:nth-child(3) {
+		animation-delay: 0.15s;
+	}
+</style>

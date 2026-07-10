@@ -11,6 +11,11 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:work",
 		},
 		{
+			name: "经验",
+			url: "/experience/",
+			icon: "material-symbols:psychology-alt-rounded",
+		},
+		{
 			name: "关于",
 			url: "/about/",
 			icon: "material-symbols:person",

@@ -1,0 +1,149 @@
+---
+import { FilterTabs } from "@components/atoms/filter-tabs";
+import { ExperienceCard } from "@components/features/experience";
+import type {
+	ExperienceTopic,
+	ExperienceTopicWithPosts,
+} from "@components/features/experience";
+import { PageHeader } from "@components/features/page-header";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedPostsList, type PostForList } from "@utils/content-utils";
+import { Icon } from "astro-icon/components";
+
+import { siteConfig } from "../config";
+import { experiencesData } from "../data/experiences";
+
+if (!siteConfig.featurePages.experience) {
+	return Astro.redirect("/404/");
+}
+
+const sortedPostsList = await getSortedPostsList();
+
+const normalize = (value: string) => value.trim().toLowerCase();
+
+const matchesKeyword = (value: string, keyword: string) => {
+	const normalizedValue = normalize(value);
+	const normalizedKeyword = normalize(keyword);
+
+	if (!normalizedValue || !normalizedKeyword) {
+		return false;
+	}
+
+	return (
+		normalizedValue === normalizedKeyword ||
+		normalizedValue.includes(normalizedKeyword) ||
+		normalizedKeyword.includes(normalizedValue)
+	);
+};
+
+const matchesAny = (values: string[], keywords: string[]) =>
+	values.some((value) =>
+		keywords.some((keyword) => matchesKeyword(value, keyword)),
+	);
+
+const getExperiencePosts = (
+	topic: ExperienceTopic,
+	posts: PostForList[],
+) => {
+	return posts.filter((post) => {
+		const tags = post.data.tags ?? [];
+		const categories =
+			typeof post.data.category === "string" && post.data.category.trim()
+				? [post.data.category]
+				: [];
+
+		return (
+			matchesAny(tags, topic.matchTags) ||
+			matchesAny(categories, topic.matchCategories)
+		);
+	});
+};
+
+const topicsWithPosts: ExperienceTopicWithPosts[] = experiencesData.map(
+	(topic) => ({
+		...topic,
+		posts: getExperiencePosts(topic, sortedPostsList),
+	}),
+);
+
+const categoryTabs = [
+	{
+		value: "career",
+		label: "求职",
+		icon: "material-symbols:work-history-rounded",
+	},
+	{
+		value: "housing",
+		label: "租房",
+		icon: "material-symbols:home-work-rounded",
+	},
+	{
+		value: "life",
+		label: "生活",
+		icon: "material-symbols:emoji-objects-rounded",
+	},
+];
+
+const filterTabs = [
+	{
+		value: "all",
+		label: "全部",
+		icon: "material-symbols:apps",
+		count: topicsWithPosts.length,
+	},
+	...categoryTabs.map((category) => ({
+		...category,
+		count: topicsWithPosts.filter((topic) => topic.category === category.value)
+			.length,
+	})),
+];
+
+const title = "经验";
+const subtitle = "把实习求职、租房和生活选择中的复盘整理成专题。";
+---
+
+<MainGridLayout title={title} description={subtitle}>
+	<script>
+		import("../scripts/right-sidebar-layout.js");
+		import { loadIconify } from "../utils/icon-loader";
+
+		loadIconify().catch((error) => {
+			console.error("Failed to load Iconify:", error);
+		});
+	</script>
+
+	<script is:inline src="/js/filter-tabs-handler.js"></script>
+
+	<div
+		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
+	>
+		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
+			<PageHeader title={title} subtitle={subtitle} />
+
+			<div class="mb-8">
+				<FilterTabs tabs={filterTabs} dataAttr="category" />
+			</div>
+
+			<div
+				id="experience-grid"
+				class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start"
+			>
+				{
+					topicsWithPosts.map((topic) => (
+						<ExperienceCard topic={topic} maxPosts={3} />
+					))
+				}
+			</div>
+
+			<div id="no-results" class="hidden text-center py-16">
+				<Icon
+					name="material-symbols:search-off-rounded"
+					class="text-6xl text-black/15 dark:text-white/15 mb-4"
+				/>
+				<p class="text-black/40 dark:text-white/40 text-lg">
+					没有匹配的经验专题
+				</p>
+			</div>
+		</div>
+	</div>
+</MainGridLayout>
