@@ -4,8 +4,7 @@ import { Icon } from "astro-icon/components";
 import { profileConfig } from "../../../config";
 import type { MomentCardProps } from "./types";
 
-const { moment, index, commentRepo, commentLabel } =
-	Astro.props as MomentCardProps;
+const { moment, index, commentsEnabled } = Astro.props as MomentCardProps;
 
 const date = new Date(moment.published);
 const formattedDate = new Intl.DateTimeFormat("zh-CN", {
@@ -15,6 +14,7 @@ const formattedDate = new Intl.DateTimeFormat("zh-CN", {
 }).format(date);
 
 const commentTerm = `moments/${moment.id}`;
+const commentTitle = `说说：${formattedDate} ${moment.content.slice(0, 32)}`;
 const avatar = profileConfig.avatar ?? "/blog-assets/funny-avatar.webp";
 ---
 
@@ -91,32 +91,32 @@ const avatar = profileConfig.avatar ?? "/blog-assets/funny-avatar.webp";
 			)
 		}
 
-		<details class="moment-comments mt-5" open={index === 0}>
-			<summary
-				class="btn-regular inline-flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium select-none"
-			>
-				<Icon
-					name="material-symbols:chat-bubble-outline-rounded"
-					class="h-4 w-4"
-				/>
-				GitHub 评论
-				<Icon
-					name="material-symbols:expand-more"
-					class="h-4 w-4 transition-transform duration-200 details-chevron"
-				/>
-			</summary>
-			<div
-				class="mt-4 rounded-lg border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.03] p-3"
-			>
-				<div
-					class="utterances-comments min-h-36"
-					data-repo={commentRepo}
-					data-term={commentTerm}
-					data-label={commentLabel}
-				>
-				</div>
-			</div>
-		</details>
+		{
+			commentsEnabled && (
+				<details class="moment-comments mt-5" open={index === 0}>
+					<summary class="btn-regular inline-flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium select-none">
+						<Icon
+							name="material-symbols:chat-bubble-outline-rounded"
+							class="h-4 w-4"
+						/>
+						Gitalk 评论
+						<Icon
+							name="material-symbols:expand-more"
+							class="h-4 w-4 transition-transform duration-200 details-chevron"
+						/>
+					</summary>
+					<div class="mt-4 rounded-lg border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.03] p-3">
+						<div
+							id={`gitalk-${moment.id}`}
+							class="gitalk-comments min-h-36"
+							data-gitalk-id={commentTerm}
+							data-gitalk-title={commentTitle}
+						>
+						</div>
+					</div>
+				</details>
+			)
+		}
 	</div>
 </article>
 
