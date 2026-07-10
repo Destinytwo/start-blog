@@ -79,8 +79,10 @@ const getDuration = (startDate: string, endDate?: string) => {
 
 const icon = item.icon || getTypeIcon(item.type);
 const typeText = getTypeText(item.type);
-const dateRange = `${formatDate(item.startDate)} - ${item.endDate ? formatDate(item.endDate) : i18n(I18nKey.timelinePresent)}`;
-const duration = getDuration(item.startDate, item.endDate);
+const dateRange =
+	item.dateDisplay ||
+	`${formatDate(item.startDate)} - ${item.endDate ? formatDate(item.endDate) : i18n(I18nKey.timelinePresent)}`;
+const duration = item.durationDisplay || getDuration(item.startDate, item.endDate);
 const nodeColor = isCurrent ? "#22c55e" : item.color || "var(--primary)";
 const hasLinks = item.links && item.links.length > 0;
 const hasProjects = item.projects && item.projects.length > 0;

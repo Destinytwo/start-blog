@@ -17,6 +17,8 @@ export interface TimelineItem {
 	type: "internship" | "competition" | "project" | "lab";
 	startDate: string;
 	endDate?: string;
+	dateDisplay?: string;
+	durationDisplay?: string;
 	location?: string;
 	organization?: string;
 	position?: string;
