@@ -3,7 +3,7 @@ import type { TimelineItem } from "../components/features/timeline/types";
 export const timelineData: TimelineItem[] = [
 	{
 		id: "wuhan-surveying-algorithm-intern",
-		title: "武汉市测绘研究院算法实习",
+		title: "无人机视觉感知算法实习",
 		description:
 			"围绕建筑外立面巡检与三维测绘数据应用场景，参与建筑缺陷检测系统科研项目，把无人机航拍影像、实景三维模型、目标检测、人工复核和报告导出串成完整系统原型。",
 		type: "internship",
@@ -44,7 +44,7 @@ export const timelineData: TimelineItem[] = [
 		startDate: "2025-09-01",
 		endDate: "2026-02-28",
 		location: "武汉",
-		organization: "武汉英泰斯特电子技术有限公司",
+		organization: "兴民智通（集团）股份有限公司",
 		position: "测试开发实习生",
 		skills: ["Python", "CAN", "PCAN", "SSH", "自动化测试", "车载终端"],
 		projects: [
