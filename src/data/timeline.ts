@@ -44,7 +44,7 @@ export const timelineData: TimelineItem[] = [
 		startDate: "2025-09-01",
 		endDate: "2026-02-28",
 		location: "武汉",
-		organization: "兴民智通（集团）股份有限公司",
+		organization: "INTEST",
 		position: "测试开发实习生",
 		skills: ["Python", "CAN", "PCAN", "SSH", "自动化测试", "车载终端"],
 		projects: [
