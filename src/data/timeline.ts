@@ -69,7 +69,7 @@ export const timelineData: TimelineItem[] = [
 	},
 	{
 		id: "kotei-vision-algorithm-intern",
-		title: "视觉感知算法实习",
+		title: "无人车视觉感知算法实习",
 		description:
 			"参与 AVM 全景环视与 APA 自动泊车相关研发，负责角点检测精度优化、二维语义结果到三维点云的映射验证，以及点云质量分析。",
 		type: "internship",
@@ -101,7 +101,7 @@ export const timelineData: TimelineItem[] = [
 	},
 	{
 		id: "uav-smalldet-lab",
-		title: "无人机小目标检测研究",
+		title: "无人机小目标视觉感知科研项目",
 		description:
 			"围绕无人机航拍场景中的小目标检测问题，基于 RT-DETR 设计特征增强、多尺度融合和定位损失优化方案，并整理为论文与实验笔记。",
 		type: "lab",
