@@ -12,6 +12,29 @@ export interface Photo {
 	height?: number;
 }
 
+export type GalleryLinkType = "博客" | "项目" | "经验" | "实习" | "说说";
+
+export interface GalleryLink {
+	type: GalleryLinkType;
+	label: string;
+	href: string;
+}
+
+export interface GalleryPhoto {
+	id: string;
+	src: string;
+	alt: string;
+	title: string;
+	description?: string;
+	date?: string;
+	location?: string;
+	tags?: string[];
+	links: GalleryLink[];
+	aspectRatio?: string;
+	accent?: string;
+	featured?: boolean;
+}
+
 export interface AlbumGroup {
 	id: string;
 	title: string;

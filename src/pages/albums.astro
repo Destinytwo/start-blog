@@ -1,40 +1,54 @@
 ---
 import { FilterTabs } from "@components/atoms/filter-tabs";
-import { AlbumCard } from "@components/features/albums";
+import { PhotoCard } from "@components/features/albums";
 import { PageHeader } from "@components/features/page-header";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { Icon } from "astro-icon/components";
 
 import { siteConfig } from "../config";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
-import { scanAlbums } from "../utils/album-scanner";
+import { galleryFilterTypes, galleryPhotos } from "../data/gallery";
+import { timelineData } from "../data/timeline";
 
 if (!siteConfig.featurePages.albums) {
 	return Astro.redirect("/404/");
 }
 
-const albumsData = await scanAlbums();
+const getTypeCount = (value: string) => {
+	if (value === "all") {
+		return galleryPhotos.length;
+	}
 
-// Collect all unique tags for filtering
-const allTags = [...new Set(albumsData.flatMap((a) => a.tags || []))].sort();
+	return galleryPhotos.filter((photo) =>
+		photo.links.some((link) => link.type === value),
+	).length;
+};
 
-const filterTabs = [
-	{
-		value: "all",
-		label: i18n(I18nKey.albumsFilterAll),
-		icon: "material-symbols:apps",
-		count: albumsData.length,
-	},
-	...allTags.map((tag) => ({
-		value: tag,
-		label: tag,
-		count: albumsData.filter((a) => a.tags?.includes(tag)).length,
-	})),
-];
+const filterTabs = galleryFilterTypes.map((type) => ({
+	...type,
+	count: getTypeCount(type.value),
+}));
 
-const title = i18n(I18nKey.albums);
-const subtitle = i18n(I18nKey.albumsSubtitle);
+const linkedTargetCount = new Set(
+	galleryPhotos.flatMap((photo) => photo.links.map((link) => link.href)),
+).size;
+
+const getPhotoTimelineIds = (photo: (typeof galleryPhotos)[number]) =>
+	photo.links
+		.map((link) => link.href.match(/^\/timeline\/#(.+)$/)?.[1])
+		.filter((id): id is string => Boolean(id));
+
+const timelineGalleryGroups = timelineData
+	.map((item) => ({
+		id: item.id,
+		title: item.title,
+		count: galleryPhotos.filter((photo) =>
+			getPhotoTimelineIds(photo).includes(item.id),
+		).length,
+	}))
+	.filter((group) => group.count > 0);
+
+const title = "相册";
+const subtitle = "把博客、项目、经历、经验和说说里的图片按主题串起来。";
 ---
 
 <MainGridLayout title={title} description={subtitle}>
@@ -49,22 +63,135 @@ const subtitle = i18n(I18nKey.albumsSubtitle);
 
 	<script is:inline src="/js/filter-tabs-handler.js"></script>
 
-	<div
-		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
-	>
-		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
-			<PageHeader title={title} subtitle={subtitle} />
+	<script is:inline define:vars={{ timelineGalleryGroups }}>
+		(function () {
+			function applyTimelineGalleryGroup() {
+				var params = new URLSearchParams(window.location.search);
+				var timelineId = params.get("timeline");
+				var cards = Array.from(
+					document.querySelectorAll(".gallery-photo-card"),
+				);
+				var context = document.getElementById("gallery-group-context");
+				var titleEl = document.getElementById("gallery-group-title");
+				var countEl = document.getElementById("gallery-group-count");
+				var noResults = document.getElementById("no-results");
 
-			{
-				albumsData.length > 0 && allTags.length > 0 && (
-					<div class="mb-8">
-						<FilterTabs tabs={filterTabs} dataAttr="tags" />
-					</div>
-				)
+				cards.forEach(function (card) {
+					card.classList.remove("gallery-group-filtered-out");
+				});
+
+				if (!timelineId) {
+					if (context) context.classList.add("hidden");
+					return;
+				}
+
+				var group = timelineGalleryGroups.find(function (item) {
+					return item.id === timelineId;
+				});
+				if (!group) {
+					if (context) context.classList.add("hidden");
+					return;
+				}
+
+				var visibleCount = 0;
+				cards.forEach(function (card) {
+					var ids = (card.dataset.timelineIds || "")
+						.split(",")
+						.filter(Boolean);
+					var matched = ids.indexOf(timelineId) !== -1;
+					card.classList.toggle("gallery-group-filtered-out", !matched);
+					if (matched && !card.classList.contains("filtered-out")) {
+						visibleCount++;
+					}
+				});
+
+				if (context) context.classList.remove("hidden");
+				if (titleEl) titleEl.textContent = group.title;
+				if (countEl) countEl.textContent = group.count + " 张照片";
+				if (noResults) noResults.classList.toggle("hidden", visibleCount > 0);
+
+				if (window.location.hash) {
+					requestAnimationFrame(function () {
+						var target = document.getElementById(
+							decodeURIComponent(window.location.hash.slice(1)),
+						);
+						if (target) target.scrollIntoView({ block: "center" });
+					});
+				}
 			}
 
-			<div id="albums-grid" class="grid gap-6 items-start">
-				{albumsData.map((album) => <AlbumCard album={album} />)}
+			if (document.readyState === "loading") {
+				document.addEventListener(
+					"DOMContentLoaded",
+					applyTimelineGalleryGroup,
+				);
+			} else {
+				applyTimelineGalleryGroup();
+			}
+			document.addEventListener("astro:page-load", applyTimelineGalleryGroup);
+		})();
+	</script>
+
+	<div
+		class="flex w-full min-w-0 rounded-(--radius-large) overflow-hidden relative min-h-32"
+	>
+		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full min-w-0">
+			<div
+				class="gallery-page-head flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between"
+			>
+				<PageHeader title={title} subtitle={subtitle} class="mb-0" />
+
+				<div class="gallery-page-stats">
+					<div class="gallery-stat-pill">
+						<Icon
+							name="material-symbols:photo-library"
+							class="h-4 w-4"
+						/>
+						<span>{galleryPhotos.length} 张照片</span>
+					</div>
+					<div class="gallery-stat-pill">
+						<Icon
+							name="material-symbols:link-rounded"
+							class="h-4 w-4"
+						/>
+						<span>{linkedTargetCount} 个关联</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="mt-7">
+				<FilterTabs tabs={filterTabs} dataAttr="types" />
+			</div>
+
+			<div id="gallery-group-context" class="gallery-group-context hidden">
+				<div class="gallery-group-copy">
+					<Icon
+						name="material-symbols:timeline"
+						class="h-4 w-4"
+					/>
+					<span>来自经历</span>
+					<strong id="gallery-group-title"></strong>
+					<span id="gallery-group-count"></span>
+				</div>
+				<a href="/albums/" class="gallery-group-clear">查看全部</a>
+			</div>
+
+			<div id="albums-grid" class="gallery-waterfall-viewport mt-7">
+				<div class="gallery-waterfall-track">
+					{
+						[0, 1].map((loopIndex) => (
+							<div class="gallery-masonry dynamic-gallery gallery-waterfall-set">
+								{galleryPhotos.map((photo) => (
+									<PhotoCard
+										photo={photo}
+										albumId="funny-gallery"
+										flowClone={loopIndex === 1}
+									/>
+								))}
+							</div>
+						))
+					}
+				</div>
 			</div>
 
 			<div id="no-results" class="hidden text-center py-16">
@@ -73,22 +200,22 @@ const subtitle = i18n(I18nKey.albumsSubtitle);
 					class="text-6xl text-black/15 dark:text-white/15 mb-4"
 				/>
 				<p class="text-black/40 dark:text-white/40 text-lg">
-					{i18n(I18nKey.albumsNoResults)}
+					没有匹配的照片
 				</p>
 			</div>
 
 			{
-				albumsData.length === 0 && (
+				galleryPhotos.length === 0 && (
 					<div class="text-center py-16">
 						<Icon
 							name="material-symbols:photo-library"
 							class="text-6xl text-black/15 dark:text-white/15 mb-4"
 						/>
 						<h3 class="text-lg font-medium text-black/90 dark:text-white/90 mb-2">
-							{i18n(I18nKey.albumsEmpty)}
+							还没有相册照片
 						</h3>
 						<p class="text-black/60 dark:text-white/60">
-							{i18n(I18nKey.albumsEmptyDesc)}
+							后续照片可以继续追加到 gallery 数据里。
 						</p>
 					</div>
 				)
@@ -98,23 +225,191 @@ const subtitle = i18n(I18nKey.albumsSubtitle);
 </MainGridLayout>
 
 <style is:global>
-	#albums-grid {
-		grid-template-columns: 1fr;
+	.gallery-page-stats {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+		min-width: 0;
 	}
 
-	@media (width >= 640px) {
-		#albums-grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
+	.gallery-stat-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.55rem 0.75rem;
+		border: 1px solid var(--line-divider);
+		border-radius: 0.75rem;
+		background:
+			linear-gradient(135deg, color-mix(in srgb, var(--primary) 10%, transparent), transparent),
+			var(--btn-regular-bg);
+		color: rgb(0 0 0 / 0.64);
+		font-size: 0.86rem;
+		font-weight: 650;
+		white-space: nowrap;
+	}
+
+	.dark .gallery-stat-pill {
+		color: rgb(255 255 255 / 0.68);
+	}
+
+	.gallery-stat-pill iconify-icon {
+		color: var(--primary);
+	}
+
+	.gallery-group-context {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		margin-top: 1.2rem;
+		padding: 0.72rem 0.82rem;
+		border: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
+		border-radius: 0.85rem;
+		background:
+			linear-gradient(135deg, color-mix(in srgb, var(--primary) 12%, transparent), transparent 62%),
+			var(--btn-regular-bg);
+	}
+
+	.gallery-group-copy {
+		display: flex;
+		min-width: 0;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.42rem;
+		color: rgb(0 0 0 / 0.62);
+		font-size: 0.82rem;
+	}
+
+	.dark .gallery-group-copy {
+		color: rgb(255 255 255 / 0.68);
+	}
+
+	.gallery-group-copy iconify-icon {
+		color: var(--primary);
+	}
+
+	.gallery-group-copy strong {
+		min-width: 0;
+		color: rgb(0 0 0 / 0.86);
+		font-weight: 750;
+	}
+
+	.dark .gallery-group-copy strong {
+		color: rgb(255 255 255 / 0.9);
+	}
+
+	.gallery-group-clear {
+		flex: 0 0 auto;
+		padding: 0.38rem 0.6rem;
+		border-radius: 0.6rem;
+		background: color-mix(in srgb, var(--primary) 11%, transparent);
+		color: var(--primary);
+		font-size: 0.78rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	.gallery-waterfall-viewport {
+		position: relative;
+		overflow: hidden;
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+		height: min(72vh, 48rem);
+		min-height: 34rem;
+		border-radius: 1rem;
+		mask-image: linear-gradient(
+			180deg,
+			transparent,
+			#000 4%,
+			#000 96%,
+			transparent
+		);
+	}
+
+	.gallery-waterfall-track {
+		width: 100%;
+		animation: galleryWaterfallFlow 56s linear infinite;
+		will-change: transform;
+	}
+
+	.gallery-waterfall-viewport:hover .gallery-waterfall-track,
+	.gallery-waterfall-viewport:focus-within .gallery-waterfall-track {
+		animation-play-state: paused;
+	}
+
+	.gallery-waterfall-set {
+		padding-bottom: 1rem;
+	}
+
+	.dynamic-gallery {
+		column-count: 1;
+		column-gap: 1rem;
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+	}
+
+	.dynamic-gallery .gallery-photo-card {
+		display: inline-block;
+		width: 100%;
+	}
+
+	#main-grid[data-layout-mode="grid"] .dynamic-gallery {
+		column-count: 2;
+	}
+
+	@media (width >= 760px) {
+		.dynamic-gallery {
+			column-count: 2;
 		}
 	}
 
-	#main-grid[data-layout-mode="grid"] #albums-grid {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+	@media (width >= 1180px) {
+		.dynamic-gallery {
+			column-count: 3;
+		}
+
+		#main-grid[data-layout-mode="grid"] .dynamic-gallery {
+			column-count: 3;
+		}
 	}
 
-	@media (width < 640px) {
-		#main-grid[data-layout-mode="grid"] #albums-grid {
-			grid-template-columns: 1fr;
+	@media (width >= 1500px) {
+		#main-grid[data-layout-mode="grid"] .dynamic-gallery {
+			column-count: 4;
+		}
+	}
+
+	@media (width < 560px) {
+		.gallery-group-context {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+
+		.gallery-waterfall-viewport {
+			height: 68vh;
+			min-height: 30rem;
+			border-radius: 0.8rem;
+		}
+
+		.gallery-waterfall-track {
+			animation-duration: 44s;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.gallery-waterfall-track {
+			animation: none;
+		}
+	}
+
+	@keyframes galleryWaterfallFlow {
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(-50%);
 		}
 	}
 </style>

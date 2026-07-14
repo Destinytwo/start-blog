@@ -1,22 +1,362 @@
 ---
+import { Icon } from "astro-icon/components";
+
 import type { PhotoCardProps } from "./types";
 
-const { src, alt = "", albumId } = Astro.props as PhotoCardProps;
+const {
+	src,
+	alt = "",
+	albumId = "gallery",
+	photo,
+	flowClone = false,
+} = Astro.props as PhotoCardProps;
+
+const cardSrc = photo?.src ?? src ?? "";
+const cardAlt = photo?.alt ?? alt;
+const title = photo?.title ?? cardAlt;
+const caption = photo?.description ? `${title} - ${photo.description}` : title;
+const linkTypes = photo ? [...new Set(photo.links.map((link) => link.type))] : [];
+const dataTypes = linkTypes.join(",");
+const timelineIds = photo
+	? photo.links
+			.map((link) => link.href.match(/^\/timeline\/#(.+)$/)?.[1])
+			.filter((id): id is string => Boolean(id))
+	: [];
+const dateText = photo?.date
+	? new Date(photo.date).toLocaleDateString("zh-CN", {
+			year: "numeric",
+			month: "short",
+			day: "numeric",
+		})
+	: "";
+
+const getLinkIcon = (type: string) => {
+	switch (type) {
+		case "博客":
+			return "material-symbols:article";
+		case "项目":
+			return "material-symbols:work";
+		case "经验":
+			return "material-symbols:psychology-alt-rounded";
+		case "实习":
+			return "material-symbols:work";
+		case "说说":
+			return "material-symbols:forum";
+		default:
+			return "material-symbols:link-rounded";
+	}
+};
 ---
 
-<div class="gallery-photo-card break-inside-avoid mb-3">
+<article
+	id={flowClone ? undefined : photo?.id}
+	class:list={[
+		"gallery-photo-card break-inside-avoid",
+		{ "is-featured": photo?.featured },
+		{ "is-flow-clone": flowClone },
+	]}
+	data-types={dataTypes}
+	data-timeline-ids={timelineIds.join(",")}
+	style={`--gallery-ratio: ${photo?.aspectRatio ?? "4 / 3"}; --gallery-accent: ${photo?.accent ?? "var(--primary)"};`}
+>
 	<div
 		data-fancybox={`gallery-${albumId}`}
-		data-src={src}
+		data-src={cardSrc}
 		data-type="image"
-		class="block rounded-xl overflow-hidden group cursor-pointer"
+		data-caption={caption}
+		class="gallery-photo-media group cursor-pointer"
 	>
 		<img
-			src={src}
-			alt={alt}
+			src={cardSrc}
+			alt={cardAlt}
 			loading="lazy"
 			decoding="async"
-			class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+			class="gallery-photo-image"
 		/>
 	</div>
-</div>
+
+	{
+		photo && (
+			<div class="gallery-photo-content">
+				<div class="gallery-photo-kicker">
+					{dateText && (
+						<span class="inline-flex items-center gap-1">
+							<Icon
+								name="material-symbols:calendar-month-rounded"
+								class="h-3.5 w-3.5"
+							/>
+							{dateText}
+						</span>
+					)}
+					{photo.location && (
+						<span class="inline-flex items-center gap-1">
+							<Icon
+								name="material-symbols:location-on-rounded"
+								class="h-3.5 w-3.5"
+							/>
+							{photo.location}
+						</span>
+					)}
+				</div>
+
+				<h3 class="gallery-photo-title">{photo.title}</h3>
+
+				{photo.description && (
+					<p class="gallery-photo-desc">{photo.description}</p>
+				)}
+
+				{photo.tags && photo.tags.length > 0 && (
+					<div class="gallery-photo-tags">
+						{photo.tags.slice(0, 4).map((tag) => (
+							<span>{tag}</span>
+						))}
+					</div>
+				)}
+
+				<div class="gallery-photo-links">
+					{photo.links.map((link) => (
+						<a href={link.href} class="gallery-photo-link">
+							<Icon
+								name={getLinkIcon(link.type)}
+								class="h-3.5 w-3.5 shrink-0"
+							/>
+							<span class="gallery-link-type">{link.type}</span>
+							<span class="gallery-link-label">{link.label}</span>
+						</a>
+					))}
+				</div>
+			</div>
+		)
+	}
+</article>
+
+<style>
+	.gallery-photo-card {
+		position: relative;
+		overflow: hidden;
+		margin-bottom: 1rem;
+		border: 1px solid var(--line-divider);
+		border-radius: 1rem;
+		background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+		box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+		opacity: 0;
+		transform: translateY(18px);
+		animation: galleryCardIn 0.58s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+		transition:
+			transform 0.28s ease,
+			box-shadow 0.28s ease,
+			border-color 0.28s ease;
+		scroll-margin-top: 6rem;
+	}
+
+	.gallery-photo-card.filtered-out {
+		display: none;
+	}
+
+	.gallery-photo-card.gallery-group-filtered-out {
+		display: none;
+	}
+
+	.gallery-photo-card:hover {
+		transform: translateY(-4px);
+		border-color: color-mix(in srgb, var(--gallery-accent) 45%, transparent);
+		box-shadow:
+			0 18px 45px rgba(15, 23, 42, 0.14),
+			0 0 0 1px color-mix(in srgb, var(--gallery-accent) 18%, transparent);
+	}
+
+	.gallery-photo-card.is-featured::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto auto 0;
+		width: 100%;
+		height: 3px;
+		background: linear-gradient(
+			90deg,
+			var(--gallery-accent),
+			color-mix(in srgb, var(--gallery-accent) 25%, white)
+		);
+		z-index: 2;
+	}
+
+	.gallery-photo-media {
+		display: block;
+		overflow: hidden;
+		aspect-ratio: var(--gallery-ratio);
+		background:
+			linear-gradient(135deg, color-mix(in srgb, var(--gallery-accent) 14%, transparent), transparent 45%),
+			var(--btn-regular-bg);
+	}
+
+	.gallery-photo-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+		transition:
+			transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+			filter 0.28s ease;
+	}
+
+	.gallery-photo-card:hover .gallery-photo-image {
+		transform: scale(1.055);
+		filter: saturate(1.08) contrast(1.02);
+	}
+
+	.gallery-photo-content {
+		padding: 0.9rem;
+	}
+
+	.gallery-photo-kicker {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem 0.75rem;
+		margin-bottom: 0.55rem;
+		color: color-mix(in srgb, var(--primary) 72%, rgb(0 0 0) 28%);
+		font-size: 0.74rem;
+	}
+
+	:global(.dark) .gallery-photo-kicker {
+		color: color-mix(in srgb, var(--primary) 72%, rgb(255 255 255) 28%);
+	}
+
+	.gallery-photo-title {
+		margin: 0;
+		color: rgb(0 0 0 / 0.88);
+		font-size: 1rem;
+		font-weight: 700;
+		line-height: 1.35;
+	}
+
+	:global(.dark) .gallery-photo-title {
+		color: rgb(255 255 255 / 0.9);
+	}
+
+	.gallery-photo-desc {
+		margin-top: 0.45rem;
+		color: rgb(0 0 0 / 0.58);
+		font-size: 0.84rem;
+		line-height: 1.65;
+	}
+
+	:global(.dark) .gallery-photo-desc {
+		color: rgb(255 255 255 / 0.58);
+	}
+
+	.gallery-photo-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+		margin-top: 0.7rem;
+	}
+
+	.gallery-photo-tags span {
+		padding: 0.2rem 0.46rem;
+		border-radius: 0.45rem;
+		background: color-mix(in srgb, var(--gallery-accent) 12%, transparent);
+		color: color-mix(in srgb, var(--gallery-accent) 78%, rgb(0 0 0) 22%);
+		font-size: 0.7rem;
+		font-weight: 600;
+	}
+
+	:global(.dark) .gallery-photo-tags span {
+		color: color-mix(in srgb, var(--gallery-accent) 76%, rgb(255 255 255) 24%);
+	}
+
+	.gallery-photo-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		margin-top: 0.85rem;
+	}
+
+	.gallery-photo-link {
+		display: inline-flex;
+		min-width: 0;
+		align-items: center;
+		gap: 0.32rem;
+		max-width: 100%;
+		padding: 0.34rem 0.52rem;
+		border: 1px solid color-mix(in srgb, var(--gallery-accent) 28%, transparent);
+		border-radius: 0.58rem;
+		background:
+			linear-gradient(135deg, color-mix(in srgb, var(--gallery-accent) 14%, transparent), transparent),
+			var(--btn-regular-bg);
+		color: color-mix(in srgb, var(--gallery-accent) 74%, rgb(0 0 0) 26%);
+		font-size: 0.74rem;
+		font-weight: 650;
+		text-decoration: none;
+		transition:
+			transform 0.2s ease,
+			border-color 0.2s ease,
+			background 0.2s ease;
+	}
+
+	.gallery-photo-link:hover {
+		transform: translateY(-1px);
+		border-color: color-mix(in srgb, var(--gallery-accent) 55%, transparent);
+		background: color-mix(in srgb, var(--gallery-accent) 15%, var(--btn-regular-bg));
+	}
+
+	:global(.dark) .gallery-photo-link {
+		color: color-mix(in srgb, var(--gallery-accent) 74%, rgb(255 255 255) 26%);
+	}
+
+	.gallery-link-type {
+		white-space: nowrap;
+	}
+
+	.gallery-link-label {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		opacity: 0.72;
+	}
+
+	.gallery-photo-card:nth-child(1) {
+		animation-delay: 0.03s;
+	}
+	.gallery-photo-card:nth-child(2) {
+		animation-delay: 0.07s;
+	}
+	.gallery-photo-card:nth-child(3) {
+		animation-delay: 0.11s;
+	}
+	.gallery-photo-card:nth-child(4) {
+		animation-delay: 0.15s;
+	}
+	.gallery-photo-card:nth-child(5) {
+		animation-delay: 0.19s;
+	}
+	.gallery-photo-card:nth-child(6) {
+		animation-delay: 0.23s;
+	}
+	.gallery-photo-card:nth-child(7) {
+		animation-delay: 0.27s;
+	}
+	.gallery-photo-card:nth-child(8) {
+		animation-delay: 0.31s;
+	}
+
+	@keyframes galleryCardIn {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (width < 520px) {
+		.gallery-photo-content {
+			padding: 0.8rem;
+		}
+
+		.gallery-photo-title {
+			font-size: 0.95rem;
+		}
+
+		.gallery-photo-link {
+			width: 100%;
+		}
+	}
+</style>

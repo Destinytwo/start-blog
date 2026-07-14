@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 
+import { galleryPhotos } from "../../../data/gallery";
 import I18nKey from "../../../i18n/i18nKey";
 import { i18n } from "../../../i18n/translation";
 import type { TimelineCardProps } from "./types";
@@ -52,6 +53,21 @@ const getLinkIcon = (type: string) => {
 	}
 };
 
+const getPhotoLinkIcon = (type: string) => {
+	switch (type) {
+		case "博客":
+			return "material-symbols:article";
+		case "项目":
+			return "material-symbols:work";
+		case "经验":
+			return "material-symbols:psychology-alt-rounded";
+		case "说说":
+			return "material-symbols:forum";
+		default:
+			return "material-symbols:link-rounded";
+	}
+};
+
 const formatDate = (dateString: string) => {
 	const date = new Date(dateString);
 	return date.toLocaleDateString("zh-CN", {
@@ -86,9 +102,26 @@ const duration = item.durationDisplay || getDuration(item.startDate, item.endDat
 const nodeColor = isCurrent ? "#22c55e" : item.color || "var(--primary)";
 const hasLinks = item.links && item.links.length > 0;
 const hasProjects = item.projects && item.projects.length > 0;
+const timelineHref = `/timeline/#${item.id}`;
+const itemPhotos = galleryPhotos.filter((photo) =>
+	photo.links.some((link) => link.href === timelineHref),
+);
+const getAlbumGroupHref = (photoId: string) =>
+	`/albums/?timeline=${encodeURIComponent(item.id)}#${photoId}`;
+const getPhotoLinks = (photo: (typeof galleryPhotos)[number]) =>
+	photo.links.filter((link) => link.href !== timelineHref).slice(0, 4);
+const minTimelineTrackPhotoCount = 5;
+const timelineTrackPhotos =
+	itemPhotos.length === 0
+		? []
+		: Array.from(
+				{ length: Math.max(itemPhotos.length, minTimelineTrackPhotoCount) },
+				(_, index) => itemPhotos[index % itemPhotos.length],
+			);
 ---
 
 <div
+	id={item.id}
 	class:list={["timeline-entry", { "is-current": isCurrent }]}
 	data-type={item.type}
 >
@@ -158,6 +191,61 @@ const hasProjects = item.projects && item.projects.length > 0;
 			>
 				{item.description}
 			</p>
+
+			{
+				itemPhotos.length > 0 && (
+					<div
+						class="timeline-photo-strip"
+						aria-label={`${item.title}照片预览`}
+					>
+						<div class="timeline-photo-track">
+							{[0, 1].map((loopIndex) => (
+								<div
+									class="timeline-photo-loop"
+									aria-hidden={loopIndex === 1 ? "true" : undefined}
+								>
+									{timelineTrackPhotos.map((photo) => (
+								<div
+									class="timeline-photo-frame"
+									style={`--timeline-photo-accent: ${photo.accent ?? item.color ?? "var(--primary)"};`}
+								>
+									<a
+										href={getAlbumGroupHref(photo.id)}
+										class="timeline-photo-cover"
+										tabindex={loopIndex === 1 ? "-1" : undefined}
+										aria-label={`查看相册分组：${photo.title}`}
+									>
+										<img
+											src={photo.src}
+											alt={photo.alt}
+											loading="lazy"
+											decoding="async"
+										/>
+										<span class="timeline-photo-title">{photo.title}</span>
+									</a>
+									<div class="timeline-photo-links">
+										{getPhotoLinks(photo).map((link) => (
+											<a
+												href={link.href}
+												class="timeline-photo-link"
+												tabindex={loopIndex === 1 ? "-1" : undefined}
+											>
+												<Icon
+													name={getPhotoLinkIcon(link.type)}
+													class="h-3 w-3 shrink-0"
+												/>
+												<span>{link.type}</span>
+											</a>
+										))}
+									</div>
+								</div>
+									))}
+								</div>
+							))}
+						</div>
+					</div>
+				)
+			}
 
 			{
 				item.skills && item.skills.length > 0 && (
@@ -299,6 +387,7 @@ const hasProjects = item.projects && item.projects.length > 0;
 		padding-bottom: 2rem;
 		animation: fadeInUp 0.5s ease-out forwards;
 		opacity: 0;
+		scroll-margin-top: 6rem;
 	}
 
 	.timeline-entry:last-child {
@@ -307,6 +396,196 @@ const hasProjects = item.projects && item.projects.length > 0;
 
 	.timeline-entry.filtered-out {
 		display: none;
+	}
+
+	.timeline-photo-strip {
+		position: relative;
+		margin: -0.1rem 0 1rem;
+		padding: 0.95rem 0.8rem;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+		border-radius: 0.95rem;
+		background:
+			repeating-linear-gradient(
+				90deg,
+				rgb(15 23 42 / 0.18) 0 0.36rem,
+				transparent 0.36rem 0.72rem
+			) top 0.34rem left 0.85rem / calc(100% - 1.7rem) 0.28rem no-repeat,
+			repeating-linear-gradient(
+				90deg,
+				rgb(15 23 42 / 0.18) 0 0.36rem,
+				transparent 0.36rem 0.72rem
+			) bottom 0.34rem left 0.85rem / calc(100% - 1.7rem) 0.28rem no-repeat,
+			linear-gradient(135deg, rgb(15 23 42 / 0.055), transparent 58%),
+			color-mix(in srgb, var(--btn-regular-bg) 88%, transparent);
+	}
+
+	:global(.dark) .timeline-photo-strip {
+		background:
+			repeating-linear-gradient(
+				90deg,
+				rgb(255 255 255 / 0.22) 0 0.36rem,
+				transparent 0.36rem 0.72rem
+			) top 0.34rem left 0.85rem / calc(100% - 1.7rem) 0.28rem no-repeat,
+			repeating-linear-gradient(
+				90deg,
+				rgb(255 255 255 / 0.18) 0 0.36rem,
+				transparent 0.36rem 0.72rem
+			) bottom 0.34rem left 0.85rem / calc(100% - 1.7rem) 0.28rem no-repeat,
+			linear-gradient(135deg, rgb(255 255 255 / 0.08), transparent 58%),
+			color-mix(in srgb, var(--btn-regular-bg) 88%, transparent);
+	}
+
+	.timeline-photo-track {
+		display: flex;
+		width: max-content;
+		max-width: none;
+		padding: 0.4rem 0.15rem 0.5rem;
+		animation: timelineFilmScroll 34s linear infinite;
+		will-change: transform;
+	}
+
+	.timeline-photo-strip:hover .timeline-photo-track,
+	.timeline-photo-strip:focus-within .timeline-photo-track {
+		animation-play-state: paused;
+	}
+
+	.timeline-photo-loop {
+		display: flex;
+		flex: 0 0 auto;
+		gap: 0.75rem;
+		padding-right: 0.75rem;
+	}
+
+	.timeline-photo-frame {
+		position: relative;
+		display: flex;
+		width: 10.8rem;
+		flex: 0 0 10.8rem;
+		flex-direction: column;
+		scroll-snap-align: start;
+		border: 1px solid color-mix(in srgb, var(--timeline-photo-accent) 28%, transparent);
+		border-radius: 0.78rem;
+		background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+		box-shadow: 0 10px 22px rgb(15 23 42 / 0.1);
+		transition:
+			transform 0.26s ease,
+			box-shadow 0.26s ease,
+			border-color 0.26s ease;
+	}
+
+	.timeline-photo-cover {
+		position: relative;
+		display: block;
+		overflow: hidden;
+		aspect-ratio: 4 / 3;
+		border-radius: 0.72rem 0.72rem 0.45rem 0.45rem;
+		text-decoration: none;
+	}
+
+	.timeline-photo-cover img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition:
+			transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+			filter 0.24s ease;
+	}
+
+	.timeline-photo-cover::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background:
+			linear-gradient(180deg, transparent 40%, rgb(0 0 0 / 0.68)),
+			linear-gradient(135deg, color-mix(in srgb, var(--timeline-photo-accent) 18%, transparent), transparent 56%);
+		pointer-events: none;
+	}
+
+	.timeline-photo-title {
+		position: absolute;
+		right: 0.55rem;
+		bottom: 0.48rem;
+		left: 0.55rem;
+		z-index: 1;
+		overflow: hidden;
+		color: white;
+		font-size: 0.72rem;
+		font-weight: 750;
+		line-height: 1.25;
+		text-overflow: ellipsis;
+		text-shadow: 0 1px 8px rgb(0 0 0 / 0.45);
+		white-space: nowrap;
+	}
+
+	.timeline-photo-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.34rem;
+		padding: 0.48rem;
+	}
+
+	.timeline-photo-link {
+		display: inline-flex;
+		min-width: 0;
+		align-items: center;
+		gap: 0.25rem;
+		padding: 0.26rem 0.4rem;
+		border-radius: 0.48rem;
+		background: color-mix(in srgb, var(--timeline-photo-accent) 10%, var(--btn-regular-bg));
+		color: color-mix(in srgb, var(--timeline-photo-accent) 70%, rgb(0 0 0) 30%);
+		font-size: 0.68rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	:global(.dark) .timeline-photo-link {
+		color: color-mix(in srgb, var(--timeline-photo-accent) 72%, rgb(255 255 255) 28%);
+	}
+
+	.timeline-photo-link:hover {
+		background: color-mix(in srgb, var(--timeline-photo-accent) 18%, var(--btn-regular-bg));
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.timeline-photo-frame:hover {
+			z-index: 4;
+			transform: translateY(-0.28rem) scale(1.08);
+			border-color: color-mix(in srgb, var(--timeline-photo-accent) 58%, transparent);
+			box-shadow:
+				0 18px 34px rgb(15 23 42 / 0.18),
+				0 0 0 1px color-mix(in srgb, var(--timeline-photo-accent) 18%, transparent);
+		}
+
+		.timeline-photo-frame:hover img {
+			transform: scale(1.06);
+			filter: saturate(1.08) contrast(1.03);
+		}
+	}
+
+	@media (width < 640px) {
+		.timeline-photo-strip {
+			margin-right: -0.15rem;
+			margin-left: -0.15rem;
+			padding: 0.8rem 0.65rem;
+			border-radius: 0.82rem;
+		}
+
+		.timeline-photo-track {
+			padding-bottom: 0.35rem;
+			animation-duration: 28s;
+		}
+
+		.timeline-photo-loop {
+			gap: 0.62rem;
+			padding-right: 0.62rem;
+		}
+
+		.timeline-photo-frame {
+			width: 12.2rem;
+			flex-basis: 12.2rem;
+		}
 	}
 
 	.timeline-node {
@@ -336,6 +615,15 @@ const hasProjects = item.projects && item.projects.length > 0;
 
 	.timeline-entry.is-current .timeline-node {
 		animation: pulse 2s ease-in-out infinite;
+	}
+
+	@keyframes timelineFilmScroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
 	}
 
 	@keyframes pulse {

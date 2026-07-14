@@ -22,7 +22,7 @@ export const siteConfig: SiteConfig = {
 		experience: true,
 		skills: false,
 		timeline: true,
-		albums: false,
+		albums: true,
 		devices: false,
 		aiTools: false,
 	},

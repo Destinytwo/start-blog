@@ -25,6 +25,7 @@ const formatDate = (date: Date) => dateFormatter.format(new Date(date));
 ---
 
 <div
+	id={topic.id}
 	class="experience-card group relative rounded-xl border border-black/10 dark:border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
 	data-category={topic.category}
 >
@@ -147,6 +148,7 @@ const formatDate = (date: Date) => dateFormatter.format(new Date(date));
 	.experience-card {
 		animation: fadeInUp 0.5s ease-out forwards;
 		opacity: 0;
+		scroll-margin-top: 6rem;
 	}
 
 	.experience-card.filtered-out {

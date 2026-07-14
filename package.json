@@ -13,7 +13,7 @@
     "update-anime": "node scripts/update-anime.mjs",
     "update-bangumi": "node scripts/update-bangumi.mjs",
     "update-bilibili": "node scripts/update-bilibili.mjs",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build && pagefind --site dist --root-selector [data-pagefind-body]",
     "submit": "node scripts/indexnow-submit.js",
     "preview": "astro preview",
     "astro": "astro",

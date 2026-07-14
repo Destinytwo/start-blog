@@ -168,11 +168,14 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   .mobile-no-sidebar {
     display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
 
   .mobile-no-sidebar main {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     margin: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -181,7 +184,16 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
   .mobile-no-sidebar #content-wrapper {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     margin: 0 !important;
+  }
+
+  .funny-page-sheet,
+  .funny-page-sheet > .relative,
+  #main-grid,
+  #swup-container {
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
 
   /* 修复双侧边栏模式在移动端的布局问题 */
@@ -189,16 +201,36 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     grid-template-columns: 1fr !important;
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
 
   .mobile-both-sidebar main {
     grid-column: 1 / -1 !important;
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     margin: 0 auto !important;
   }
 
   .mobile-both-sidebar .footer {
     grid-column: 1 / -1 !important;
+  }
+}
+
+@media (width < 1280px) {
+  .funny-page-sheet,
+  .funny-page-sheet > .relative,
+  #main-grid,
+  #swup-container,
+  #content-wrapper {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #swup-container,
+  #content-wrapper {
+    width: 100% !important;
   }
 }
 

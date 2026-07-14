@@ -34,12 +34,15 @@
 
 					items.forEach(function (item) {
 						var itemValue = item.dataset[filterAttr];
+						var hiddenByGroup = item.classList.contains("gallery-group-filtered-out");
 						var match =
 							activeValue === "all" || (itemValue && itemValue.split(",").indexOf(activeValue) !== -1);
 
 						if (match) {
 							item.classList.remove("filtered-out");
-							visibleCount++;
+							if (!hiddenByGroup) {
+								visibleCount++;
+							}
 						} else {
 							item.classList.add("filtered-out");
 						}

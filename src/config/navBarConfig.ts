@@ -21,6 +21,11 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:timeline",
 		},
 		{
+			name: "相册",
+			url: "/albums/",
+			icon: "material-symbols:photo-library",
+		},
+		{
 			name: "说说",
 			url: "/moments/",
 			icon: "material-symbols:forum",

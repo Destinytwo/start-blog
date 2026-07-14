@@ -19,6 +19,7 @@ const avatar = profileConfig.avatar ?? "/blog-assets/funny-avatar.webp";
 ---
 
 <article
+	id={moment.id}
 	class="moment-card group rounded-xl border border-black/10 dark:border-white/10 bg-white/65 dark:bg-white/[0.04] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
 	data-published={moment.published}
 >
@@ -124,6 +125,7 @@ const avatar = profileConfig.avatar ?? "/blog-assets/funny-avatar.webp";
 	.moment-card {
 		animation: momentFadeIn 0.5s ease-out forwards;
 		opacity: 0;
+		scroll-margin-top: 6rem;
 	}
 
 	.moment-card.filtered-out {

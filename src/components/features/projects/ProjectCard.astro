@@ -29,6 +29,7 @@ const getStatusText = (status: string) => {
 ---
 
 <div
+	id={project.id}
 	class="project-card group relative rounded-xl border border-black/10 dark:border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
 	data-category={project.category}
 >
@@ -144,6 +145,7 @@ const getStatusText = (status: string) => {
 	.project-card {
 		animation: fadeInUp 0.5s ease-out forwards;
 		opacity: 0;
+		scroll-margin-top: 6rem;
 	}
 
 	.project-card.filtered-out {
