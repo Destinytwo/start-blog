@@ -215,12 +215,24 @@ const timelineTrackPhotos =
 										tabindex={loopIndex === 1 ? "-1" : undefined}
 										aria-label={`查看相册分组：${photo.title}`}
 									>
-										<img
-											src={photo.src}
-											alt={photo.alt}
-											loading="lazy"
-											decoding="async"
-										/>
+										<picture>
+											{photo.image?.sources?.map((source) => (
+												<source
+													type={source.type}
+													srcset={source.srcset}
+													sizes={photo.image?.sizes}
+												/>
+											))}
+											<img
+												src={photo.image?.src ?? photo.src}
+												alt={photo.alt}
+												loading="lazy"
+												decoding="async"
+												sizes={photo.image?.sizes}
+												width={photo.image?.width}
+												height={photo.image?.height}
+											/>
+										</picture>
 										<span class="timeline-photo-title">{photo.title}</span>
 									</a>
 									<div class="timeline-photo-links">
@@ -481,6 +493,12 @@ const timelineTrackPhotos =
 		aspect-ratio: 4 / 3;
 		border-radius: 0.72rem 0.72rem 0.45rem 0.45rem;
 		text-decoration: none;
+	}
+
+	.timeline-photo-cover picture {
+		display: block;
+		width: 100%;
+		height: 100%;
 	}
 
 	.timeline-photo-cover img {

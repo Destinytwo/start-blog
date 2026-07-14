@@ -13,6 +13,7 @@ const {
 
 const cardSrc = photo?.src ?? src ?? "";
 const cardAlt = photo?.alt ?? alt;
+const responsiveImage = photo?.image;
 const title = photo?.title ?? cardAlt;
 const caption = photo?.description ? `${title} - ${photo.description}` : title;
 const linkTypes = photo ? [...new Set(photo.links.map((link) => link.type))] : [];
@@ -66,13 +67,27 @@ const getLinkIcon = (type: string) => {
 		data-caption={caption}
 		class="gallery-photo-media group cursor-pointer"
 	>
-		<img
-			src={cardSrc}
-			alt={cardAlt}
-			loading="lazy"
-			decoding="async"
-			class="gallery-photo-image"
-		/>
+		<picture>
+			{
+				responsiveImage?.sources?.map((source) => (
+					<source
+						type={source.type}
+						srcset={source.srcset}
+						sizes={responsiveImage.sizes}
+					/>
+				))
+			}
+			<img
+				src={responsiveImage?.src ?? cardSrc}
+				alt={cardAlt}
+				loading="lazy"
+				decoding="async"
+				sizes={responsiveImage?.sizes}
+				width={responsiveImage?.width}
+				height={responsiveImage?.height}
+				class="gallery-photo-image"
+			/>
+		</picture>
 	</div>
 
 	{
@@ -186,6 +201,12 @@ const getLinkIcon = (type: string) => {
 		background:
 			linear-gradient(135deg, color-mix(in srgb, var(--gallery-accent) 14%, transparent), transparent 45%),
 			var(--btn-regular-bg);
+	}
+
+	.gallery-photo-media picture {
+		display: block;
+		width: 100%;
+		height: 100%;
 	}
 
 	.gallery-photo-image {

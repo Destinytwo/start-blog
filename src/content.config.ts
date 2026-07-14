@@ -2,6 +2,28 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+const contentLinkSchema = z.object({
+	kind: z.enum(["post", "project", "experience", "timeline", "moment"]),
+	id: z.string().optional(),
+	slug: z.string().optional(),
+	label: z.string().optional(),
+});
+
+const galleryPhotoSchema = z.object({
+	id: z.string().optional(),
+	src: z.string(),
+	alt: z.string().optional(),
+	title: z.string().optional(),
+	description: z.string().optional(),
+	date: z.string().optional(),
+	location: z.string().optional(),
+	tags: z.array(z.string()).optional(),
+	aspectRatio: z.string().optional(),
+	accent: z.string().optional(),
+	featured: z.boolean().optional(),
+	links: z.array(contentLinkSchema).optional(),
+});
+
 const postsCollection = defineCollection({
 	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
 	schema: z.object({
@@ -21,6 +43,8 @@ const postsCollection = defineCollection({
 		sourceLink: z.string().optional().default(""),
 		licenseName: z.string().optional().default(""),
 		licenseUrl: z.string().optional().default(""),
+		links: z.array(contentLinkSchema).optional().default([]),
+		gallery: z.array(galleryPhotoSchema).optional().default([]),
 
 		/* Page encryption fields */
 		encrypted: z.boolean().optional().default(false),

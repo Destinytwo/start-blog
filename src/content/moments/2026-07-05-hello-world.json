@@ -1,0 +1,28 @@
+{
+	"id": "2026-07-05-hello-world",
+	"content": "helloworld！",
+	"published": "2026-07-05T12:00:00+08:00",
+	"ipLocation": "湖北省武汉市江汉区",
+	"tags": ["第一条"],
+	"links": [
+		{
+			"kind": "experience",
+			"id": "life",
+			"label": "生活经验"
+		}
+	],
+	"photos": [
+		{
+			"id": "hello-world-moment",
+			"src": "/blog-assets/funny-avatar.webp",
+			"alt": "Funny 头像",
+			"title": "第一条说说",
+			"description": "站点说说功能上线后的第一条记录。",
+			"date": "2026-07-05",
+			"location": "湖北省武汉市江汉区",
+			"tags": ["helloworld", "说说"],
+			"aspectRatio": "1 / 1",
+			"accent": "#db2777"
+		}
+	]
+}

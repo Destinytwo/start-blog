@@ -6,7 +6,7 @@
     "sync-content": "node scripts/sync-content.js",
     "init-content": "node scripts/init-content-repo.js",
     "predev": "node scripts/sync-content.js || true",
-    "prebuild": "node scripts/sync-content.js || true",
+    "prebuild": "node scripts/prebuild.js",
     "dev": "astro dev",
     "start": "astro dev",
     "check": "astro check",
@@ -19,6 +19,8 @@
     "astro": "astro",
     "type-check": "tsc --noEmit",
     "new-post": "node scripts/new-post.js",
+    "new-moment": "node scripts/new-moment.js",
+    "generate-media": "node scripts/generate-responsive-media.js",
     "format": "biome format --write ./src",
     "lint": "biome check --write ./src",
     "preinstall": "npx only-allow pnpm"

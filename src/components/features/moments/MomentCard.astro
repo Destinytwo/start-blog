@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components";
 
 import { profileConfig } from "../../../config";
+import { createContentLinks } from "../../../data/content-links";
 import type { MomentCardProps } from "./types";
 
 const { moment, index, commentsEnabled } = Astro.props as MomentCardProps;
@@ -16,6 +17,22 @@ const formattedDate = new Intl.DateTimeFormat("zh-CN", {
 const commentTerm = `moments/${moment.id}`;
 const commentTitle = `说说：${formattedDate} ${moment.content.slice(0, 32)}`;
 const avatar = profileConfig.avatar ?? "/blog-assets/funny-avatar.webp";
+const relatedLinks = createContentLinks(moment.links ?? []);
+
+const getLinkIcon = (type: string) => {
+	switch (type) {
+		case "博客":
+			return "material-symbols:article";
+		case "项目":
+			return "material-symbols:work";
+		case "经验":
+			return "material-symbols:psychology-alt-rounded";
+		case "实习":
+			return "material-symbols:work";
+		default:
+			return "material-symbols:link-rounded";
+	}
+};
 ---
 
 <article
@@ -87,6 +104,23 @@ const avatar = profileConfig.avatar ?? "/blog-assets/funny-avatar.webp";
 						<span class="px-2 py-1 rounded-md bg-(--primary)/10 text-(--primary) text-xs font-medium">
 							#{tag}
 						</span>
+					))}
+				</div>
+			)
+		}
+
+		{
+			relatedLinks.length > 0 && (
+				<div class="mt-4 flex flex-wrap gap-2">
+					{relatedLinks.map((link) => (
+						<a
+							href={link.href}
+							class="moment-related-link inline-flex items-center gap-1.5 rounded-md border border-black/10 bg-(--btn-regular-bg) px-2.5 py-1.5 text-xs font-medium text-black/65 transition hover:border-[var(--primary)] hover:text-(--primary) dark:border-white/10 dark:text-white/65"
+						>
+							<Icon name={getLinkIcon(link.type)} class="h-3.5 w-3.5" />
+							<span>{link.type}</span>
+							<span class="max-w-40 truncate opacity-70">{link.label}</span>
+						</a>
 					))}
 				</div>
 			)

@@ -20,6 +20,19 @@ export interface GalleryLink {
 	href: string;
 }
 
+export interface ResponsiveImageSource {
+	type: string;
+	srcset: string;
+}
+
+export interface ResponsiveImageData {
+	src: string;
+	sizes?: string;
+	sources?: ResponsiveImageSource[];
+	width?: number;
+	height?: number;
+}
+
 export interface GalleryPhoto {
 	id: string;
 	src: string;
@@ -33,6 +46,7 @@ export interface GalleryPhoto {
 	aspectRatio?: string;
 	accent?: string;
 	featured?: boolean;
+	image?: ResponsiveImageData;
 }
 
 export interface AlbumGroup {
