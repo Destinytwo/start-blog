@@ -52,6 +52,25 @@ export const projectsData: Project[] = [
 		"featured": true,
 		"visitUrl": "/posts/car-terminal-automation-test-scripts/",
 		"showImage": true
+	},
+	{
+		"id": "kotei-vision-perception-internship",
+		"title": "光庭视觉感知算法实习项目",
+		"description": "围绕 AVM 全景环视和 APA 自动泊车场景，整理亚像素角点检测、全景拼接质量优化、语义分割到三维点云映射和点云质量分析工作。",
+		"image": "/blog-assets/kotei-vision-perception-cover.svg",
+		"category": "视觉算法项目",
+		"techStack": [
+			"C++",
+			"OpenCV",
+			"PCL",
+			"CloudCompare",
+			"AVM",
+			"APA"
+		],
+		"status": "completed",
+		"featured": true,
+		"visitUrl": "/posts/kotei-vision-perception-internship-summary/",
+		"showImage": true
 	}
 ];
 

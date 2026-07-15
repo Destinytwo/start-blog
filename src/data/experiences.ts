@@ -2,6 +2,18 @@ import type { ExperienceTopic } from "@components/features/experience";
 
 export const experiencesData: ExperienceTopic[] = [
 	{
+		id: "kotei-vision-perception-internship",
+		title: "光庭视觉感知算法实习",
+		description: "记录我在武汉光庭技术股份有限公司参与 AVM 全景环视、APA 自动泊车、亚像素角点检测和语义点云映射的算法实习经历。",
+		category: "internship",
+		icon: "material-symbols:linked-camera-rounded",
+		matchTags: ["光庭", "视觉感知", "AVM", "APA", "PCL", "点云", "实习总结"],
+		matchCategories: ["视觉算法项目"],
+		focus: ["AVM", "APA", "角点检测", "点云映射", "PCL"],
+		status: "stable",
+		featured: true,
+	},
+	{
 		id: "career",
 		title: "实习找工作经验",
 		description: "记录简历、投递、面试、实习选择和从学生到职场的阶段复盘。",

@@ -36,6 +36,40 @@ export const timelineData: TimelineItem[] = [
 		featured: true,
 	},
 	{
+		id: "kotei-vision-perception-intern",
+		title: "光庭视觉感知算法实习",
+		description:
+			"在武汉光庭技术股份有限公司参与 AVM 全景环视和 APA 自动泊车相关研发，围绕亚像素级角点检测、全景拼接质量优化、语义分割到三维点云映射和点云质量分析开展算法工作。",
+		type: "internship",
+		startDate: "2025-03-01",
+		endDate: "2025-08-31",
+		location: "武汉",
+		organization: "武汉光庭技术股份有限公司",
+		position: "视觉感知算法实习生",
+		skills: ["C++", "OpenCV", "PCL", "CloudCompare", "AVM", "APA", "语义分割"],
+		projects: [
+			{
+				name: "AVM 亚像素角点检测与拼接质量优化",
+				summary:
+					"围绕全景环视图像拼接场景，优化角点检测和特征匹配精度，提升环视拼接稳定性。",
+				url: "/posts/kotei-vision-perception-internship-summary/",
+			},
+			{
+				name: "语义分割结果到三维点云映射",
+				summary:
+					"使用 C++ 和 PCL 将二维语义图像信息映射到三维点云，并借助 CloudCompare 做可视化分析和质量评估。",
+				url: "/posts/kotei-vision-perception-internship-summary/",
+			},
+		],
+		achievements: [
+			"熟悉 AVM、APA 等智能驾驶视觉感知模块的工程链路。",
+			"积累了亚像素角点检测、点云映射和三维环境重建相关经验。",
+		],
+		icon: "material-symbols:linked-camera-rounded",
+		color: "#7C3AED",
+		featured: true,
+	},
+	{
 		id: "car-terminal-test-dev-intern",
 		title: "车载终端测试开发实习",
 		description:
