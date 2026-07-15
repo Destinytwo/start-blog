@@ -35,6 +35,27 @@ export const projectsData: Project[] = [
 		"visitUrl": "/posts/project-building-defect-3d-system/",
 		"sourceCode": "",
 		"showImage": true
+	},
+	{
+		"id": "intest-car-terminal-test-development",
+		"title": "INTEST 车载终端测试开发",
+		"description": "围绕 TBOX 定位、通信、平台上报、诊断联动和异常恢复机制，整理车载测试开发实习中的验证思路与工具链。",
+		"image": "/blog-assets/intest-test-cover.svg",
+		"category": "车载测试项目",
+		"techStack": [
+			"CANFD",
+			"PCAN",
+			"MobaXterm",
+			"tensorCRT",
+			"DOIP",
+			"ECALL",
+			"Linux"
+		],
+		"status": "completed",
+		"featured": true,
+		"visitUrl": "/posts/intest-car-terminal-test-development-summary/",
+		"sourceCode": "",
+		"showImage": true
 	}
 ];
 

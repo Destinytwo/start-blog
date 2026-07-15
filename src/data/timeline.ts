@@ -37,31 +37,41 @@ export const timelineData: TimelineItem[] = [
 	},
 	{
 		id: "entest-test-dev-intern",
-		title: "智能网联车载系统测试开发实习",
+		title: "INTEST 英泰斯特测试开发实习",
 		description:
-			"参与百度 Apollo RT6、RT7 车载终端在台架环境下的功能与稳定性验证，围绕上电、休眠唤醒、CAN 通信、网络恢复和异常场景编写测试用例与自动化脚本。",
+			"围绕 TBOX 定位与通信、运营平台上报、ECALL、DOIP、WiFi 和电源模式切换等场景，参与车载终端测试开发与自动化验证。",
 		type: "internship",
 		startDate: "2025-09-01",
 		endDate: "2026-02-28",
 		location: "武汉",
-		organization: "INTEST",
+		organization: "INTEST（英泰斯特）",
 		position: "测试开发实习生",
-		skills: ["Python", "CAN", "PCAN", "SSH", "自动化测试", "车载终端"],
+		skills: [
+			"Python",
+			"CANFD",
+			"PCAN",
+			"MobaXterm",
+			"tensorCRT",
+			"DOIP",
+			"ECALL",
+		],
 		projects: [
 			{
-				name: "百度 RT6 休眠唤醒与外网连通性自动化测试",
+				name: "TBOX 定位与通信功能测试",
 				summary:
-					"基于串口日志识别 sleepAck 休眠状态，通过 PCAN 发送 NM 唤醒报文，并自动完成 Wi-Fi 连接、SSH 登录和外网 ping 验证。",
+					"覆盖休眠唤醒、上电启动、长时间定位、模组重启、辅助定位、漂移检测和广播报文时序验证。",
+				url: "/posts/intest-tbox-location-communication-test/",
 			},
 			{
-				name: "RT6 / RT7 台架点检与异常场景用例",
+				name: "车载运营平台数据上报与诊断联动",
 				summary:
-					"梳理终端上电、网络通信、系统运行状态等核心链路，参与用例评审并补充可执行的功能与异常测试场景。",
+					"覆盖在线/离线定位、SOS、质检、故障、代理应用、DOIP、ECALL 和网络切换等场景。",
+				url: "/posts/intest-platform-upload-diagnosis-ecall/",
 			},
 		],
 		achievements: [
-			"将重复人工点检链路沉淀为可复用脚本，提高测试执行稳定性。",
-			"熟悉智能网联车载终端的通信、休眠唤醒和台架验证流程。",
+			"把定位、通信、平台上报和恢复机制整理成可执行的测试清单。",
+			"熟悉 MobaXterm、PCAN、CANFD、tensorCRT 等工具的联调和排障流程。",
 		],
 		icon: "material-symbols:directions-car-rounded",
 		color: "#0F766E",
