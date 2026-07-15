@@ -36,8 +36,8 @@ export const timelineData: TimelineItem[] = [
 		featured: true,
 	},
 	{
-		id: "entest-test-dev-intern",
-		title: "INTEST 英泰斯特测试开发实习",
+		id: "car-terminal-test-dev-intern",
+		title: "车载终端测试开发实习",
 		description:
 			"围绕 TBOX 定位与通信、运营平台上报、ECALL、DOIP、WiFi 和电源模式切换等场景，参与车载终端测试开发与自动化验证。",
 		type: "internship",
@@ -57,16 +57,22 @@ export const timelineData: TimelineItem[] = [
 		],
 		projects: [
 			{
+				name: "车载终端自动化测试脚本",
+				summary:
+					"把高频测试场景整理成可复用的脚本、命令和检查清单，方便后续回归验证。",
+				url: "/posts/car-terminal-automation-test-scripts/",
+			},
+			{
 				name: "TBOX 定位与通信功能测试",
 				summary:
 					"覆盖休眠唤醒、上电启动、长时间定位、模组重启、辅助定位、漂移检测和广播报文时序验证。",
-				url: "/posts/intest-tbox-location-communication-test/",
+				url: "/posts/car-terminal-tbox-location-communication-test/",
 			},
 			{
 				name: "车载运营平台数据上报与诊断联动",
 				summary:
 					"覆盖在线/离线定位、SOS、质检、故障、代理应用、DOIP、ECALL 和网络切换等场景。",
-				url: "/posts/intest-platform-upload-diagnosis-ecall/",
+				url: "/posts/car-terminal-platform-upload-diagnosis-ecall/",
 			},
 		],
 		achievements: [

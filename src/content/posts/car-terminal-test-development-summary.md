@@ -1,10 +1,10 @@
 ---
-title: "INTEST 英泰斯特测试开发实习总结：TBOX 定位、通信、上报与诊断联动"
+title: "车载终端测试开发实习总结：TBOX 定位、通信、上报与诊断联动"
 published: 2026-07-15
 updated: 2026-07-15
 draft: false
-description: "整理在 INTEST 英泰斯特测试开发实习期间做过的车载终端测试内容：TBOX 定位、广播报文、平台上报、诊断联动、ECALL 和常用终端命令。"
-image: "/blog-assets/intest-test-cover.svg"
+description: "整理车载终端测试开发实习期间做过的车载终端测试内容：TBOX 定位、广播报文、平台上报、诊断联动、ECALL 和常用终端命令。"
+image: "/blog-assets/car-terminal-test-cover.svg"
 tags: ["测试开发", "TBOX", "CANFD", "DOIP", "ECALL", "实习总结"]
 category: "车载测试项目"
 author: "Funny"
@@ -12,7 +12,7 @@ author: "Funny"
 
 ## 写在前面
 
-这篇不是单一功能笔记，而是我在 INTEST 英泰斯特测试开发实习期间，把做过的测试场景、排查方法和终端命令整理成的一份归档总结。
+这篇不是单一功能笔记，而是我在这段车载终端测试开发实习期间，把做过的测试场景、排查方法和终端命令整理成的一份归档总结。
 
 由于项目有保密要求，下面对部分平台名、字段名和日志细节做了适度脱敏，但测试思路、验证顺序和排查方式是完整的。整体风格我尽量按 CSDN 精品技术文章来写，方便后续自己回看，也方便别人快速理解车载终端测试是怎么做的。
 
@@ -21,7 +21,7 @@ author: "Funny"
 - 验证 TBOX 在定位、通信和广播报文上的稳定性。
 - 验证运营平台和车云平台的数据上报链路。
 - 验证诊断、ECALL、WiFi、4G/5G 和电源模式切换。
-- 把一次性测试经验整理成可复用的检查清单和命令记录。
+- 把一次性测试经验整理成可复用的检查清单、脚本和命令记录。
 
 缺图占位：这类内容大多是终端、台架、抓包和日志截图，后续可以补少量示意图，但正文即使没有图片也可以成立。
 
@@ -208,6 +208,7 @@ nmcli dev wifi list
 
 - TBOX 定位与通信测试速查
 - 车载运营平台上报与诊断链路总结
+- 车载终端自动化测试脚本与回归清单
 
 这样内容会更像一个可以长期维护的归档库，而不是一次性流水账。
 
@@ -215,7 +216,8 @@ nmcli dev wifi list
 
 如果你想按场景继续看，我把这段实习拆成了两篇更细的文章：
 
-- [TBOX 定位与通信测试：休眠唤醒、上电、长稳和报文时序](/posts/intest-tbox-location-communication-test/)
-- [平台上报与诊断联动：定位、SOS、ECALL 和 DOIP 一起怎么测](/posts/intest-platform-upload-diagnosis-ecall/)
+- [TBOX 定位与通信测试：休眠唤醒、上电、长稳和报文时序](/posts/car-terminal-tbox-location-communication-test/)
+- [平台上报与诊断联动：定位、SOS、ECALL 和 DOIP 一起怎么测](/posts/car-terminal-platform-upload-diagnosis-ecall/)
+- [车载终端自动化测试脚本与回归清单](/posts/car-terminal-automation-test-scripts/)
 
 总览文章负责把整个实习工作讲清楚，分篇负责把每个场景的测试方法和命令写细。

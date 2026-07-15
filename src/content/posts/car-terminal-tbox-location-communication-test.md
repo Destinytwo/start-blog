@@ -1,9 +1,9 @@
 ---
-title: "INTEST TBOX 定位与通信测试：休眠唤醒、上电、长稳和报文时序"
+title: "TBOX 定位与通信测试：休眠唤醒、上电、长稳和报文时序"
 published: 2026-07-15
 updated: 2026-07-15
 draft: false
-description: "整理 INTEST 英泰斯特测试开发实习里最基础的一块：TBOX 定位、广播报文、长时间稳定性和异常恢复怎么测。"
+description: "整理车载终端测试开发里最基础的一块：TBOX 定位、广播报文、长时间稳定性和异常恢复怎么测。"
 tags: ["TBOX", "定位测试", "广播报文", "稳定性"]
 category: "车载测试项目"
 author: "Funny"
