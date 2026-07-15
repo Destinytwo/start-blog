@@ -39,7 +39,7 @@ export const projectsData: Project[] = [
 	{
 		"id": "car-terminal-automation-test-scripts",
 		"title": "车载终端自动化测试脚本",
-		"description": "围绕 TBOX 定位、平台上报、诊断联动、ECALL 和网络切换，整理可复用的回归脚本、命令清单和异常检查流程。",
+		"description": "围绕 TBOX 定位、平台上报、诊断联动、ECALL 和网络切换，整理可复用的回归脚本、命令清单、异常检查流程和重建版源码。",
 		"image": "/blog-assets/car-terminal-test-cover.svg",
 		"category": "车载测试项目",
 		"techStack": [
@@ -53,7 +53,7 @@ export const projectsData: Project[] = [
 		"status": "completed",
 		"featured": true,
 		"visitUrl": "/posts/car-terminal-automation-test-scripts/",
-		"sourceCode": "",
+		"sourceCode": "/source-code/car-terminal-automation-test-scripts.py",
 		"showImage": true
 	}
 ];

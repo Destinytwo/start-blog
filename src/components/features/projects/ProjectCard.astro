@@ -123,11 +123,13 @@ const getStatusText = (status: string) => {
 							href={project.sourceCode!}
 							target="_blank"
 							rel="noopener noreferrer"
+							aria-label="查看源码"
+							title="查看源码"
 							class="btn-regular flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium"
 							style={hasVisitUrl ? "" : "flex: 1;"}
 						>
-							<Icon name="mdi:github" class="text-base w-4 h-4" />
-							{!hasVisitUrl && "GitHub"}
+							<Icon name="material-symbols:code-rounded" class="text-base w-4 h-4" />
+							源码
 						</a>
 					)}
 				</div>

@@ -1,7 +1,7 @@
 ---
 title: "平台上报与诊断联动：定位、SOS、ECALL 和 DOIP 一起怎么测"
-published: 2026-07-15
-updated: 2026-07-15
+published: 2026-01-15
+updated: 2026-01-15
 draft: false
 description: "整理车载终端测试开发里与平台、诊断和 ECALL 相关的内容：在线/离线定位、SOS、质检、故障、DOIP、代理应用和网络切换。"
 tags: ["平台上报", "DOIP", "ECALL", "SOS", "诊断联动"]

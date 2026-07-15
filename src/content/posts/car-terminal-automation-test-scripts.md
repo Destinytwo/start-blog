@@ -1,7 +1,7 @@
 ---
 title: "车载终端自动化测试脚本与回归清单：把高频场景做成可复用流程"
-published: 2026-07-15
-updated: 2026-07-15
+published: 2025-10-15
+updated: 2025-10-15
 draft: false
 description: "整理车载终端测试里适合脚本化的高频场景：环境检查、日志采集、总线抓包、平台校验和异常恢复清单。"
 image: "/blog-assets/car-terminal-test-cover.svg"
@@ -115,3 +115,28 @@ ping 8.8.8.8
 对我来说，自动化测试脚本的价值不是替代所有人工工作，而是把高频、重复、容易漏的步骤先收拢起来。
 
 这样一来，真正需要人盯住的就只剩下少数异常场景和边界问题，回归效率会高很多，排障也会更稳。
+
+## 源码重建版
+
+我暂时没有找到原始脚本，所以根据这段实习里真实出现的链路，重建了一版可执行示例。源码放在 [car-terminal-automation-test-scripts.py](/source-code/car-terminal-automation-test-scripts.py)。
+
+这份脚本保留了四个核心动作：
+
+1. 监听串口日志，等待 `sleepAck` 出现。
+2. 通过 PCAN 或兼容适配器发送 CAN 唤醒帧。
+3. 自动连接指定 Wi-Fi，并检查连接状态。
+4. SSH 到终端执行 `ping`，把每一轮结果写成 JSONL 日志。
+
+```bash
+python car-terminal-automation-test-scripts.py ^
+  --serial-port COM3 ^
+  --wifi-profile RT6_TEST ^
+  --wifi-ssid RT6_TEST ^
+  --ssh-host 192.168.0.1 ^
+  --ssh-user root ^
+  --cycles 50
+```
+
+脚本文件本身放在 [car-terminal-automation-test-scripts.py](/source-code/car-terminal-automation-test-scripts.py)。
+
+如果后面找到原始仓库，这份重建版可以直接对照替换；但现在它已经足够把这段测试链路讲清楚。
