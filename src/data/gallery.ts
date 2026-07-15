@@ -53,11 +53,6 @@ const projectBuildingRelations = [
 	{ kind: "timeline", id: "wuhan-surveying-algorithm-intern" },
 ] as const;
 
-const uavSmallDetRelations = [
-	{ kind: "project", id: "uav-smalldet", label: "UAV-SmallDet" },
-	{ kind: "timeline", id: "uav-smalldet-lab", label: "无人机小目标科研项目" },
-] as const;
-
 const manualGalleryPhotos: GalleryPhoto[] = [
 	withResponsiveImage({
 		id: "building-system-home",
@@ -146,67 +141,6 @@ const manualGalleryPhotos: GalleryPhoto[] = [
 				label: "报告导出",
 			},
 			...projectBuildingRelations,
-		]),
-	}),
-	withResponsiveImage({
-		id: "smalldet-overall-architecture",
-		src: "/blog-assets/smalldet-overall-architecture.webp",
-		alt: "UAV-SmallDet 整体网络结构",
-		title: "UAV-SmallDet 网络结构",
-		description: "围绕无人机小目标检测设计的特征增强与定位优化框架。",
-		date: "2025-08-20",
-		location: "武汉",
-		tags: ["SmallDet", "RT-DETR", "无人机"],
-		aspectRatio: "4 / 3",
-		accent: "#7c3aed",
-		featured: true,
-		links: createContentLinks([
-			{
-				kind: "post",
-				slug: "project-uav-smalldet",
-				label: "项目总览",
-			},
-			...uavSmallDetRelations,
-		]),
-	}),
-	withResponsiveImage({
-		id: "smalldet-qualitative-scenes",
-		src: "/blog-assets/smalldet-qualitative-scenes.svg",
-		alt: "无人机小目标检测定性场景",
-		title: "小目标定性场景",
-		description: "对高空、密集、尺度变化明显的目标场景做可视化复盘。",
-		date: "2025-08-20",
-		location: "武汉",
-		tags: ["可视化", "无人机", "小目标"],
-		aspectRatio: "1 / 1",
-		accent: "#a855f7",
-		links: createContentLinks([
-			{
-				kind: "post",
-				slug: "smalldet-innovation-hgpkinet",
-				label: "创新点整理",
-			},
-			...uavSmallDetRelations,
-		]),
-	}),
-	withResponsiveImage({
-		id: "smalldet-heatmap-visualization",
-		src: "/blog-assets/smalldet-heatmap-visualization.svg",
-		alt: "小目标检测热力图可视化",
-		title: "热力图可视化",
-		description: "用热力图观察模型对小目标区域的响应变化。",
-		date: "2025-08-20",
-		location: "武汉",
-		tags: ["热力图", "模型解释", "实验复盘"],
-		aspectRatio: "9 / 12",
-		accent: "#ef4444",
-		links: createContentLinks([
-			{
-				kind: "post",
-				slug: "smalldet-innovation-stfl-neck",
-				label: "STFL-Neck",
-			},
-			...uavSmallDetRelations,
 		]),
 	}),
 ];

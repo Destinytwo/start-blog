@@ -35,27 +35,6 @@ export const projectsData: Project[] = [
 		"visitUrl": "/posts/project-building-defect-3d-system/",
 		"sourceCode": "",
 		"showImage": true
-	},
-	{
-		"id": "uav-smalldet",
-		"title": "UAV-SmallDet：无人机小目标感知网络",
-		"description": "面向无人机航拍场景的小目标检测算法项目，围绕特征稀疏、尺度退化和定位敏感问题设计小目标感知增强框架。",
-		"image": "/blog-assets/smalldet-qualitative-scenes.svg",
-		"category": "SmallDet",
-		"techStack": [
-			"RT-DETR",
-			"HG-PKINet",
-			"STFL-Neck",
-			"SA-NWD",
-			"VisDrone2019",
-			"Tiny-Person",
-			"LaTeX"
-		],
-		"status": "completed",
-		"featured": false,
-		"visitUrl": "/posts/project-uav-smalldet/",
-		"sourceCode": "",
-		"showImage": true
 	}
 ];
 
