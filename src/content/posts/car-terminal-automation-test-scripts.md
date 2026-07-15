@@ -116,16 +116,275 @@ ping 8.8.8.8
 
 这样一来，真正需要人盯住的就只剩下少数异常场景和边界问题，回归效率会高很多，排障也会更稳。
 
-## 源码重建版
+## 七、脚本逻辑拆解版
 
-我暂时没有找到原始脚本，所以根据这段实习里真实出现的链路，重建了一版可执行示例。源码放在 [car-terminal-automation-test-scripts.py](/source-code/car-terminal-automation-test-scripts.py)。
+我暂时没有找到原始脚本，所以这里不做“源码下载”，而是按照这段实习里真实出现的测试链路，把自动化脚本拆成几个模块来讲。
 
-这份脚本保留了四个核心动作：
+这类脚本的核心不是写得多复杂，而是把一轮人工测试固化成可重复的机器流程：
 
-1. 监听串口日志，等待 `sleepAck` 出现。
-2. 通过 PCAN 或兼容适配器发送 CAN 唤醒帧。
-3. 自动连接指定 Wi-Fi，并检查连接状态。
-4. SSH 到终端执行 `ping`，把每一轮结果写成 JSONL 日志。
+1. 等待终端进入目标状态。
+2. 下发唤醒或触发动作。
+3. 检查网络和链路恢复。
+4. 执行终端侧验证命令。
+5. 把每一轮结果写成结构化日志，方便后续统计失败点。
+
+对应到这次车载终端测试，我会把它拆成下面六个部分。
+
+## 八、配置层：把环境变量收拢到一起
+
+自动化脚本最怕参数散落。串口号、Wi-Fi 名称、SSH 地址、CAN 通道、循环次数这些内容，一旦写死在流程里，换一个台架就要到处改。
+
+所以我会先做一个配置对象，把测试入口收拢起来：
+
+```python
+@dataclass(slots=True)
+class TestConfig:
+    serial_port: str
+    serial_baudrate: int = 115200
+    sleep_keyword: str = "sleepAck"
+    sleep_timeout: float = 60.0
+    wake_delay: float = 6.0
+    wifi_profile: str = ""
+    wifi_ssid: str = ""
+    wifi_timeout: float = 45.0
+    ssh_host: str = "192.168.0.1"
+    ssh_user: str = "root"
+    ping_target: str = "8.8.8.8"
+    can_channel: str = "PCAN_USBBUS1"
+    wake_arbitration_id: int = 0x43B
+    wake_data_hex: str = "0102030405060708"
+    cycles: int = 50
+```
+
+这里的参数可以分成四类：
+
+| 类型 | 参数 | 作用 |
+| --- | --- | --- |
+| 终端状态 | `serial_port`、`sleep_keyword` | 判断终端是否进入休眠或目标状态 |
+| 唤醒动作 | `can_channel`、`wake_arbitration_id`、`wake_data_hex` | 通过总线触发终端唤醒 |
+| 网络恢复 | `wifi_profile`、`wifi_ssid`、`wifi_timeout` | 验证上位机和终端链路能否恢复 |
+| 终端验证 | `ssh_host`、`ssh_user`、`ping_target` | 登入终端执行连通性检查 |
+
+这样写的好处是，后面如果从 RT6 换到 RT7，或者 Wi-Fi 配置变化，只需要改入口参数，不需要改主流程。
+
+## 九、状态监听：等到 `sleepAck` 再继续
+
+自动化脚本不能靠固定 `sleep 30` 去猜终端状态。车载终端在休眠、唤醒、网络恢复时都有波动，固定等待时间要么太短导致误判，要么太长浪费回归时间。
+
+我会用串口日志里的关键字作为状态锚点：
+
+```python
+class SerialKeywordWatcher:
+    def wait_for_keyword(self, keyword: str, timeout_seconds: float) -> str:
+        deadline = time.time() + timeout_seconds
+        keyword_lower = keyword.lower()
+
+        while time.time() < deadline:
+            raw = self._serial.readline()
+            if not raw:
+                continue
+
+            line = raw.decode(errors="ignore").strip()
+            if keyword_lower in line.lower():
+                return line
+
+        raise TimeoutError(f"Timed out waiting for serial keyword: {keyword}")
+```
+
+这段逻辑解决的是“什么时候开始下一步”的问题。
+
+如果没有等到 `sleepAck`，说明终端可能没有真正进入休眠，后面即使发送唤醒帧，测试结论也不干净。所以这里宁愿直接失败，也不要继续跑下去污染后面的结果。
+
+## 十、唤醒动作：优先 PCAN，兼容 `cansend`
+
+唤醒动作本质上就是向 CAN 总线发送一帧指定报文。
+
+如果环境里有 `python-can`，脚本优先走 PCAN；如果是 Linux 或者已有 SocketCAN 工具，就可以退化到 `cansend`：
+
+```python
+class PcanWakeSender:
+    def send(self, arbitration_id: int, data: bytes) -> None:
+        if can is not None:
+            self._send_with_python_can(arbitration_id, data)
+            return
+
+        cansend = shutil.which("cansend")
+        if cansend:
+            frame = f"{arbitration_id:X}#{data.hex().upper()}"
+            subprocess.run([cansend, self._channel, frame], check=True)
+            return
+
+        raise RuntimeError("Neither python-can nor cansend is available.")
+```
+
+这一层我会特别保留失败抛错，而不是静默跳过。
+
+因为 CAN 唤醒帧一旦没发出去，后面的 Wi-Fi 连接、SSH 检查全部都会失败。此时真正的问题在“唤醒没触发”，不是网络本身。
+
+## 十一、网络恢复：连接 Wi-Fi 后再查状态
+
+车载终端唤醒后，通常还要等 Wi-Fi 或局域网链路恢复。这里不能只执行一次连接命令就算通过，还要循环检查连接状态。
+
+```python
+class WindowsWifiConnector:
+    def connect(self) -> None:
+        cmd = ["netsh", "wlan", "connect", f"name={self.profile}"]
+        if self.ssid:
+            cmd.append(f"ssid={self.ssid}")
+        subprocess.run(cmd, check=True, capture_output=True, text=True)
+
+    def wait_connected(self, timeout_seconds: float) -> str:
+        deadline = time.time() + timeout_seconds
+
+        while time.time() < deadline:
+            result = subprocess.run(
+                ["netsh", "wlan", "show", "interfaces"],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            if "connected" in result.stdout.lower() or "已连接" in result.stdout:
+                return result.stdout
+            time.sleep(1.0)
+
+        raise TimeoutError("Timed out waiting for Wi-Fi connection.")
+```
+
+这里的判断重点有两个：
+
+- `connect` 只代表系统收到了连接请求，不代表链路已经可用。
+- `wait_connected` 才是真正确认 Wi-Fi 状态的步骤。
+
+如果测试环境里 Wi-Fi 名称、配置文件或者网卡状态不稳定，这一层能很快把问题暴露出来。
+
+## 十二、终端验证：SSH 执行 `ping`
+
+Wi-Fi 连上以后，还要确认终端侧网络真的能通。这里我会用 SSH 进入终端执行 `ping`，而不是只在上位机本地 `ping` 终端。
+
+```python
+class SshPingRunner:
+    def run_ping(self, target: str, count: int) -> str:
+        cmd = [
+            "ssh",
+            "-o", "BatchMode=yes",
+            "-o", f"ConnectTimeout={self.timeout}",
+            f"{self.user}@{self.host}",
+            f"ping -c {count} {target}",
+        ]
+        result = subprocess.run(cmd, check=False, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise RuntimeError(f"SSH ping failed: {result.stderr}")
+        return result.stdout.strip()
+```
+
+这样设计是为了区分两类问题：
+
+| 现象 | 可能原因 |
+| --- | --- |
+| 上位机能连终端，但终端 `ping` 外网失败 | 终端路由、DNS、蜂窝网络或 APN 异常 |
+| 上位机连不上终端 SSH | Wi-Fi、终端服务、IP 地址或防火墙异常 |
+
+如果只在本地 `ping 192.168.0.1`，只能说明上位机到终端这一段通了，不能说明终端自己的外部链路正常。
+
+## 十三、主流程：每一轮都记录失败阶段
+
+主流程不要把所有动作揉成一大段。我的写法是每一步都更新 `stage`，一旦失败就能知道停在哪个环节。
+
+```python
+for cycle in range(1, config.cycles + 1):
+    stage = "wait_sleep"
+    success = False
+
+    try:
+        sleep_marker = watcher.wait_for_keyword(
+            config.sleep_keyword,
+            config.sleep_timeout,
+        )
+
+        stage = "send_wake"
+        can_sender.send(config.wake_arbitration_id, config.wake_payload)
+
+        stage = "wake_settle"
+        time.sleep(config.wake_delay)
+
+        stage = "wifi_connect"
+        wifi.connect()
+        wifi.wait_connected(config.wifi_timeout)
+
+        stage = "ssh_ping"
+        ping_output = ssh.run_ping(config.ping_target, config.ping_count)
+        success = True
+    except Exception as exc:
+        message = str(exc)
+```
+
+这里我最看重的是 `stage`。
+
+如果 50 轮里失败了 8 轮，光看“失败”没什么价值。只有知道失败集中在 `wait_sleep`、`send_wake`、`wifi_connect` 还是 `ssh_ping`，才能继续定位是状态机、CAN、Wi-Fi 还是终端网络的问题。
+
+## 十四、结果输出：用 JSONL 方便后续统计
+
+每一轮结果我会写成一行 JSON，而不是只打印到终端。
+
+```python
+@dataclass(slots=True)
+class CycleResult:
+    cycle: int
+    success: bool
+    stage: str
+    message: str
+    duration_seconds: float
+    timestamp: str
+    sleep_marker: str = ""
+```
+
+单轮结果类似这样：
+
+```json
+{
+  "cycle": 17,
+  "success": false,
+  "stage": "wifi_connect",
+  "message": "Timed out waiting for Wi-Fi connection.",
+  "duration_seconds": 52.31,
+  "timestamp": "2026-02-21T19:42:08",
+  "sleep_marker": "sleepAck received"
+}
+```
+
+这样后续可以很容易统计：
+
+- 总共跑了多少轮。
+- 哪些轮失败。
+- 失败集中在哪个阶段。
+- 每一轮耗时是否异常。
+- 串口关键字是否按预期出现。
+
+如果要继续增强，可以再加一层汇总：
+
+```python
+summary = {
+    "total": len(results),
+    "passed": passed,
+    "failed": failed,
+    "output_dir": str(config.output_dir),
+}
+```
+
+这比人工翻终端输出可靠很多，也方便后续把结果贴到测试报告里。
+
+## 十五、运行方式和前置依赖
+
+这类脚本真正运行前，要先确认四类依赖：
+
+| 依赖 | 用途 |
+| --- | --- |
+| `pyserial` | 读取串口日志 |
+| `python-can` 或 `cansend` | 发送 CAN 唤醒帧 |
+| Windows `netsh` | 自动连接 Wi-Fi |
+| `ssh` 命令 | 登录终端执行验证命令 |
+
+运行入口可以设计成这样：
 
 ```bash
 python car-terminal-automation-test-scripts.py ^
@@ -137,6 +396,15 @@ python car-terminal-automation-test-scripts.py ^
   --cycles 50
 ```
 
-脚本文件本身放在 [car-terminal-automation-test-scripts.py](/source-code/car-terminal-automation-test-scripts.py)。
+这里的 `COM3`、`RT6_TEST`、`192.168.0.1` 都只是示例。真正使用时应按台架环境替换。
 
-如果后面找到原始仓库，这份重建版可以直接对照替换；但现在它已经足够把这段测试链路讲清楚。
+## 十六、这段脚本最适合讲什么
+
+如果把它放到项目里，我不会强调“我写了多少行代码”，而是强调它解决了哪些测试问题：
+
+- 把休眠唤醒、Wi-Fi 恢复、SSH 验证串成了固定流程。
+- 每轮都能定位失败阶段，不需要人工反复回忆当时停在哪一步。
+- 支持连续多轮回归，能暴露偶发失败和稳定性问题。
+- 输出 JSONL 结果，后续可以继续接测试报告或统计脚本。
+
+这才是自动化脚本对测试开发岗位最有价值的地方：不是单纯替人工点按钮，而是把容易漏、容易混、容易复现不稳定的问题收敛成可追踪的数据。

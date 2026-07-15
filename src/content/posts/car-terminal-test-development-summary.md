@@ -219,6 +219,5 @@ nmcli dev wifi list
 - [TBOX 定位与通信测试：休眠唤醒、上电、长稳和报文时序](/posts/car-terminal-tbox-location-communication-test/)
 - [平台上报与诊断联动：定位、SOS、ECALL 和 DOIP 一起怎么测](/posts/car-terminal-platform-upload-diagnosis-ecall/)
 - [车载终端自动化测试脚本与回归清单](/posts/car-terminal-automation-test-scripts/)
-- [车载终端自动化测试脚本重建版源码](/source-code/car-terminal-automation-test-scripts.py)
 
 总览文章负责把整个实习工作讲清楚，分篇负责把每个场景的测试方法和命令写细。

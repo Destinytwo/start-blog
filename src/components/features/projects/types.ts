@@ -9,7 +9,6 @@ export interface Project {
 	demoUrl?: string;
 	sourceUrl?: string;
 	liveDemo?: string;
-	sourceCode?: string;
 	visitUrl?: string;
 	startDate: string;
 	endDate?: string;

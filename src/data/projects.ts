@@ -8,7 +8,6 @@ export interface Project {
 	category: string;
 	techStack: string[];
 	status: "completed" | "in-progress" | "planned";
-	sourceCode?: string;
 	visitUrl?: string;
 	featured?: boolean;
 	showImage?: boolean;
@@ -33,13 +32,12 @@ export const projectsData: Project[] = [
 		"status": "completed",
 		"featured": true,
 		"visitUrl": "/posts/project-building-defect-3d-system/",
-		"sourceCode": "",
 		"showImage": true
 	},
 	{
 		"id": "car-terminal-automation-test-scripts",
 		"title": "车载终端自动化测试脚本",
-		"description": "围绕 TBOX 定位、平台上报、诊断联动、ECALL 和网络切换，整理可复用的回归脚本、命令清单、异常检查流程和重建版源码。",
+		"description": "围绕 TBOX 定位、平台上报、诊断联动、ECALL 和网络切换，拆解可复用回归脚本的流程设计、关键代码片段、判定条件和异常检查清单。",
 		"image": "/blog-assets/car-terminal-test-cover.svg",
 		"category": "车载测试项目",
 		"techStack": [
@@ -53,7 +51,6 @@ export const projectsData: Project[] = [
 		"status": "completed",
 		"featured": true,
 		"visitUrl": "/posts/car-terminal-automation-test-scripts/",
-		"sourceCode": "/source-code/car-terminal-automation-test-scripts.py",
 		"showImage": true
 	}
 ];

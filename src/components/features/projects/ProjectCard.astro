@@ -10,7 +10,6 @@ const { project, maxTechStack = 4 } = Astro.props as ProjectCardProps;
 const hasImage = !!project.image;
 const showImageArea = project.showImage !== false && hasImage;
 const hasVisitUrl = !!project.visitUrl;
-const hasSourceCode = !!project.sourceCode;
 const isExternalVisitUrl =
 	hasVisitUrl && /^(https?:)?\/\//.test(project.visitUrl || "");
 
@@ -102,36 +101,20 @@ const getStatusText = (status: string) => {
 		}
 
 		{
-			(hasVisitUrl || hasSourceCode) && (
+			hasVisitUrl && (
 				<div class="flex gap-2">
-					{hasVisitUrl && (
-						<a
-							href={project.visitUrl!}
-							target={isExternalVisitUrl ? "_blank" : undefined}
-							rel={isExternalVisitUrl ? "noopener noreferrer" : undefined}
-							class="btn-regular flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium"
-						>
-							<Icon
-								name="material-symbols:open-in-new"
-								class="text-base w-4 h-4"
-							/>
-							{i18n(I18nKey.projectsVisit)}
-						</a>
-					)}
-					{hasSourceCode && (
-						<a
-							href={project.sourceCode!}
-							target="_blank"
-							rel="noopener noreferrer"
-							aria-label="查看源码"
-							title="查看源码"
-							class="btn-regular flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium"
-							style={hasVisitUrl ? "" : "flex: 1;"}
-						>
-							<Icon name="material-symbols:code-rounded" class="text-base w-4 h-4" />
-							源码
-						</a>
-					)}
+					<a
+						href={project.visitUrl!}
+						target={isExternalVisitUrl ? "_blank" : undefined}
+						rel={isExternalVisitUrl ? "noopener noreferrer" : undefined}
+						class="btn-regular flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium"
+					>
+						<Icon
+							name="material-symbols:open-in-new"
+							class="text-base w-4 h-4"
+						/>
+						{i18n(I18nKey.projectsVisit)}
+					</a>
 				</div>
 			)
 		}
