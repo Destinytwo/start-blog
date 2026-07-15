@@ -80,7 +80,7 @@ function sahiDetect(image, model, sliceSize, overlap):
 - 重叠区域重复框数量。
 - 漏检和误检样本的分布。
 
-缺图占位：这里后续可以补一张切片大小对比图，例如 640、960、1280 三种切片下同一个缺陷的可见程度。
+![SAHI 切片检测流程](/blog-assets/sahi-tiling-workflow.svg)
 
 ## 重叠比例为什么重要
 

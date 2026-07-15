@@ -95,7 +95,7 @@ function linkDefectToModel(defectBox, camera, model):
 - 点和相机距离是否合理。
 - 是否被模型表面遮挡。
 
-缺图占位：这里后续可以补一张“一个三维点被投影到多张候选照片”的示意图。
+![二维照片和三维模型联动流程](/blog-assets/linkage-flow.svg)
 
 ## 坐标系统容易踩坑
 

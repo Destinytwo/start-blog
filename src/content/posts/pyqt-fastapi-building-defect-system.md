@@ -138,7 +138,7 @@ function detectFromClient(selectedImages):
 
 > 检测系统结果界面：展示检测前后视图、类别统计和结果复核入口。
 
-缺图占位：这里后续可以补一张系统首页图，标注项目管理、检测入口、三维模型、报告导出四个区域。
+![检测系统结果界面](/blog-assets/detection-ui-result.png)
 
 ## 线程和卡顿问题
 

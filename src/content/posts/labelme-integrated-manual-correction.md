@@ -158,7 +158,7 @@ DefectLabel:
 
 这也是我认为工程系统比单次模型推理更有价值的地方：系统会把模型问题沉淀下来，后续可以迭代。
 
-缺图占位：这里后续可以补一张“模型检测结果 -> LabelMe 修正 -> 系统回写结果”的三步截图。
+![LabelMe 人工复核界面](/blog-assets/labelme-manual-annotation.png)
 
 ## 集成过程中的注意点
 

@@ -147,7 +147,7 @@ function buildTrainingLabels(dataset):
 
 > LabelMe 手工标注截图：用于展示数据审查、补标和类别统一的实际工作流。
 
-缺图占位：这里后续可以补一张“数据清洗前后样本对比图”，展示偏移框、漏标、类别混乱样本被剔除后的效果。
+![数据集整理流程](/blog-assets/dataset-pipeline.svg)
 
 ## train / val / test 怎么拆
 

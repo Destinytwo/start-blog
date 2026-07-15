@@ -162,7 +162,7 @@ function build3DMarkers(defects):
 
 > 二维照片与三维红点对照：用于检查三维定位是否落在合理位置。
 
-缺图占位：这里后续可以补一张“多张照片检测到同一缺陷，合并为一个三维红点”的示意图。
+![二维照片与三维红点对照](/blog-assets/photo-3d-marker-linkage.png)
 
 ## 常见偏移原因
 
