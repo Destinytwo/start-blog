@@ -59,6 +59,15 @@ const filterTabs = [
 	})),
 ];
 
+const sortedTimelineData = [...timelineData].sort((a, b) => {
+	const startDiff = new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+	if (startDiff !== 0) return startDiff;
+
+	const aEnd = a.endDate ? new Date(a.endDate).getTime() : 0;
+	const bEnd = b.endDate ? new Date(b.endDate).getTime() : 0;
+	return bEnd - aEnd;
+});
+
 const title = "经历";
 const subtitle = "按时间整理实习、竞赛、实验室和项目经历。";
 ---
@@ -86,7 +95,7 @@ const subtitle = "按时间整理实习、竞赛、实验室和项目经历。";
 			</div>
 
 			<div id="timeline-list" class="timeline-list">
-				{timelineData.map((item) => <TimelineCard item={item} />)}
+				{sortedTimelineData.map((item) => <TimelineCard item={item} />)}
 			</div>
 
 			<div id="no-results" class="hidden text-center py-16">
