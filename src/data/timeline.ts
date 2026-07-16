@@ -121,19 +121,20 @@ export const timelineData: TimelineItem[] = [
 		id: "surveying-gis-competition",
 		title: "测绘程序设计竞赛经历",
 		description:
-			"独立完成 GIS 方向纵横断面计算与绘制程序，从数据解析、算法计算、图形渲染到结果导出形成完整桌面软件流程。",
+			"独立完成 GIS 与测绘程序设计方向的桌面工具复盘与工程整理，覆盖大地线长度、纵横断面和曲线拟合三类典型计算题，从数据解析、算法计算、图形渲染到结果导出形成完整流程。",
 		type: "competition",
 		startDate: "2023-09-01",
 		endDate: "2024-07-31",
 		location: "武汉",
 		organization: "测绘学科创新创业智能大赛",
 		position: "程序设计参赛项目",
-		skills: ["C++", "MFC", "GIS", "数据校验", "图形绘制"],
+		skills: ["C++", "MFC", "GIS", "大地测量", "纵横断面", "曲线拟合"],
 		projects: [
 			{
-				name: "基于 MFC 的纵横断面计算与绘制程序",
+				name: "测绘程序设计竞赛三合一工具",
 				summary:
-					"实现断面数据输入解析、异常数据校验、纵横断面高程计算、曲线绘制和参数报告导出。",
+					"围绕大地线长度、纵横断面和曲线拟合三个模块，整理 C++ / MFC 程序的数据读取、算法封装、界面展示和报告导出流程。",
+				url: "/posts/surveying-geodesic-distance/",
 			},
 		],
 		achievements: ["获得全国二等奖。", "强化了桌面软件工程、数据结构设计和 GIS 数据处理能力。"],

@@ -90,6 +90,25 @@ export const projectsData: Project[] = [
 		"featured": true,
 		"visitUrl": "/posts/robocon-quadruped-vision-module/",
 		"showImage": false
+	},
+	{
+		"id": "surveying-programming-suite",
+		"title": "测绘程序设计竞赛三合一工具",
+		"description": "围绕大地线长度、纵横断面和曲线拟合三类测绘计算题，整理 C++ / MFC 桌面程序的数据读取、算法封装、结果展示和报告导出流程。",
+		"image": "/blog-assets/surveying-profile-section-result.png",
+		"category": "测绘竞赛项目",
+		"techStack": [
+			"C++",
+			"MFC",
+			"GIS",
+			"大地测量",
+			"纵横断面",
+			"曲线拟合"
+		],
+		"status": "completed",
+		"featured": true,
+		"visitUrl": "/posts/surveying-geodesic-distance/",
+		"showImage": true
 	}
 ];
 

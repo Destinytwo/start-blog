@@ -53,7 +53,37 @@ const projectBuildingRelations = [
 	{ kind: "timeline", id: "wuhan-surveying-algorithm-intern" },
 ] as const;
 
+const surveyingProgrammingRelations = [
+	{
+		kind: "project",
+		id: "surveying-programming-suite",
+		label: "测绘竞赛项目",
+	},
+	{ kind: "timeline", id: "surveying-gis-competition" },
+] as const;
+
 const manualGalleryPhotos: GalleryPhoto[] = [
+	withResponsiveImage({
+		id: "surveying-profile-section-result",
+		src: "/blog-assets/surveying-profile-section-result.png",
+		alt: "测绘程序设计纵横断面计算结果",
+		title: "测绘竞赛三合一工具",
+		description: "围绕大地线长度、纵横断面和曲线拟合整理的 C++ / MFC 测绘程序设计项目复盘。",
+		date: "2024-07-22",
+		location: "武汉",
+		tags: ["测绘程序设计", "C++", "MFC", "纵横断面"],
+		aspectRatio: "16 / 10",
+		accent: "#d97706",
+		featured: true,
+		links: createContentLinks([
+			{
+				kind: "post",
+				slug: "surveying-profile-cross-section",
+				label: "纵横断面复盘",
+			},
+			...surveyingProgrammingRelations,
+		]),
+	}),
 	withResponsiveImage({
 		id: "building-system-home",
 		src: "/blog-assets/building-system-home.png",
