@@ -71,6 +71,25 @@ export const projectsData: Project[] = [
 		"featured": true,
 		"visitUrl": "/posts/kotei-vision-perception-internship-summary/",
 		"showImage": true
+	},
+	{
+		"id": "robocon-quadruped-vision-module",
+		"title": "Robocon 仿生四足机器人视觉模块",
+		"description": "面向四足机器人竞速任务，基于相机输入、ROI 裁剪、阈值分割、轮廓筛选和中线拟合输出路径偏移与方向误差。",
+		"image": "/blog-assets/beedog-quadruped-robot.png",
+		"category": "机器人竞赛项目",
+		"techStack": [
+			"Python",
+			"OpenCV",
+			"Jetson Nano",
+			"ROS",
+			"图像处理",
+			"视觉引导"
+		],
+		"status": "completed",
+		"featured": true,
+		"visitUrl": "/posts/robocon-quadruped-vision-module/",
+		"showImage": true
 	}
 ];
 

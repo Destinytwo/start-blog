@@ -186,6 +186,7 @@ export const timelineData: TimelineItem[] = [
 				name: "仿生四足机器人视觉模块",
 				summary:
 					"围绕四足机器人竞速任务进行视觉识别、路径感知和现场参数调试，支撑机器人在赛场环境下稳定运行。",
+				url: "/posts/robocon-quadruped-vision-module/",
 			},
 		],
 		achievements: ["获得全国三等奖两项。"],
@@ -197,7 +198,7 @@ export const timelineData: TimelineItem[] = [
 		id: "robocon-quadruped-vision-module",
 		title: "Robocon 仿生四足机器人视觉模块",
 		description:
-			"面向全国大学生机器人大赛 Robocon 的仿生四足机器人竞速任务，负责视觉模块开发与调试，把赛道识别结果转化为可用于控制决策的路径信息。",
+			"面向全国大学生机器人大赛 Robocon 的仿生四足机器人竞速任务，负责视觉模块开发与调试，把相机画面中的路径信息转化为偏移量、方向误差和置信度，供后续控制决策使用。",
 		type: "competition",
 		startDate: "2024-03-01",
 		endDate: "2024-07-09",
@@ -209,7 +210,8 @@ export const timelineData: TimelineItem[] = [
 			{
 				name: "仿生四足机器人视觉模块",
 				summary:
-					"基于 OpenCV 完成灰度化、阈值分割、边缘提取和中线拟合，部署在 Jetson Nano 上实现低延迟路径识别。",
+					"基于 OpenCV 完成 ROI 裁剪、灰度 / HSV 阈值分割、轮廓筛选和中线拟合，部署在 Jetson Nano 上实现低延迟路径识别。",
+				url: "/posts/robocon-quadruped-vision-module/",
 			},
 		],
 		achievements: [
