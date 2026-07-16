@@ -50,6 +50,10 @@ author: "Funny"
   -> 输出 offset / heading / confidence
 ```
 
+![Robocon 四足机器人视觉识别流程](/blog-assets/robocon-vision-pipeline.svg)
+
+> 四足机器人视觉识别流程：相机输入先经过 ROI 裁剪和阈值分割，最后输出路径中线、横向偏移、方向角和置信度；调试时要同时观察原图 ROI、二值 mask、拟合线和输出曲线。
+
 如果走 ROS 图像流，常用检查命令类似这样：
 
 ```bash

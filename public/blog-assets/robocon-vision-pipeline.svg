@@ -1,0 +1,49 @@
+<svg width="1200" height="640" viewBox="0 0 1200 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Robocon 四足机器人视觉识别流程</title>
+  <desc id="desc">相机输入、ROI 裁剪、阈值分割、中线拟合和控制输出组成的四足机器人视觉流程。</desc>
+  <rect width="1200" height="640" fill="#F7FAFC"/>
+  <rect x="56" y="56" width="1088" height="528" rx="30" fill="#FFFFFF" stroke="#D8E1EA" stroke-width="2"/>
+  <text x="104" y="118" fill="#132033" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="38" font-weight="700">Robocon 四足机器人视觉识别流程</text>
+  <text x="104" y="158" fill="#526173" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="21">视觉模块把相机画面转换成 offset、heading 和 confidence，供控制侧做低延迟决策。</text>
+
+  <g font-family="Arial, 'Microsoft YaHei', sans-serif">
+    <rect x="104" y="230" width="184" height="118" rx="22" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+    <text x="196" y="280" text-anchor="middle" fill="#1D4ED8" font-size="26" font-weight="700">相机输入</text>
+    <text x="196" y="312" text-anchor="middle" fill="#3A5274" font-size="17">640×480 / 30fps</text>
+
+    <rect x="360" y="230" width="184" height="118" rx="22" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+    <text x="452" y="280" text-anchor="middle" fill="#047857" font-size="26" font-weight="700">ROI 裁剪</text>
+    <text x="452" y="312" text-anchor="middle" fill="#315B50" font-size="17">保留下半区域</text>
+
+    <rect x="616" y="230" width="184" height="118" rx="22" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+    <text x="708" y="280" text-anchor="middle" fill="#C2410C" font-size="26" font-weight="700">阈值分割</text>
+    <text x="708" y="312" text-anchor="middle" fill="#72513A" font-size="17">灰度 / HSV</text>
+
+    <rect x="872" y="230" width="184" height="118" rx="22" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="964" y="280" text-anchor="middle" fill="#6D28D9" font-size="26" font-weight="700">中线拟合</text>
+    <text x="964" y="312" text-anchor="middle" fill="#584A73" font-size="17">offset / heading</text>
+
+    <rect x="188" y="436" width="824" height="84" rx="22" fill="#F1F5F9" stroke="#CBD5E1"/>
+    <text x="600" y="470" text-anchor="middle" fill="#334155" font-size="23" font-weight="700">调试观察面板</text>
+    <text x="600" y="500" text-anchor="middle" fill="#526173" font-size="18">原图 ROI · 二值 mask · 轮廓筛选 · 拟合线 · confidence 变化曲线</text>
+  </g>
+
+  <g stroke="#64748B" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M288 289H360"/>
+    <path d="M544 289H616"/>
+    <path d="M800 289H872"/>
+    <path d="M964 348V436"/>
+    <path d="M196 348V436"/>
+  </g>
+  <g fill="#64748B">
+    <path d="M360 289L346 281V297L360 289Z"/>
+    <path d="M616 289L602 281V297L616 289Z"/>
+    <path d="M872 289L858 281V297L872 289Z"/>
+    <path d="M964 436L956 422H972L964 436Z"/>
+    <path d="M196 436L188 422H204L196 436Z"/>
+  </g>
+
+  <path d="M408 392C470 360 528 358 600 392C672 426 734 424 796 392" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+  <path d="M600 382V422" stroke="#EF4444" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="600" cy="402" r="8" fill="#EF4444"/>
+</svg>

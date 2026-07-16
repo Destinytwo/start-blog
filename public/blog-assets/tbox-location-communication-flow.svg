@@ -1,0 +1,55 @@
+<svg width="1200" height="640" viewBox="0 0 1200 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">TBOX 定位与通信测试流程</title>
+  <desc id="desc">从清缓存、上电唤醒、首次定位、报文时序到长稳漂移的测试流程。</desc>
+  <rect width="1200" height="640" fill="#F8FAFC"/>
+  <rect x="56" y="56" width="1088" height="528" rx="30" fill="#FFFFFF" stroke="#D7DEE8" stroke-width="2"/>
+  <text x="104" y="122" fill="#132033" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="38" font-weight="700">TBOX 定位与通信测试流程</text>
+  <text x="104" y="162" fill="#526173" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="21">测试重点不是单次定位成功，而是缓存、首帧、周期、平台一致性和长时间漂移。</text>
+
+  <g font-family="Arial, 'Microsoft YaHei', sans-serif">
+    <g>
+      <rect x="94" y="256" width="150" height="92" rx="18" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+      <text x="169" y="296" text-anchor="middle" fill="#047857" font-size="24" font-weight="700">清缓存</text>
+      <text x="169" y="324" text-anchor="middle" fill="#315B50" font-size="16">辅助定位文件</text>
+    </g>
+    <g>
+      <rect x="292" y="256" width="150" height="92" rx="18" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+      <text x="367" y="296" text-anchor="middle" fill="#1D4ED8" font-size="24" font-weight="700">上电/唤醒</text>
+      <text x="367" y="324" text-anchor="middle" fill="#3A5274" font-size="16">休眠恢复</text>
+    </g>
+    <g>
+      <rect x="490" y="256" width="150" height="92" rx="18" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+      <text x="565" y="296" text-anchor="middle" fill="#C2410C" font-size="24" font-weight="700">首次定位</text>
+      <text x="565" y="324" text-anchor="middle" fill="#72513A" font-size="16">TTFF / 质量</text>
+    </g>
+    <g>
+      <rect x="688" y="256" width="150" height="92" rx="18" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+      <text x="763" y="296" text-anchor="middle" fill="#6D28D9" font-size="24" font-weight="700">报文时序</text>
+      <text x="763" y="324" text-anchor="middle" fill="#584A73" font-size="16">首帧 / 周期</text>
+    </g>
+    <g>
+      <rect x="886" y="256" width="150" height="92" rx="18" fill="#FEFCE8" stroke="#EAB308" stroke-width="2"/>
+      <text x="961" y="296" text-anchor="middle" fill="#854D0E" font-size="24" font-weight="700">长稳漂移</text>
+      <text x="961" y="324" text-anchor="middle" fill="#6B5A2E" font-size="16">静态 / 动态</text>
+    </g>
+  </g>
+
+  <g stroke="#64748B" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M244 302H292"/>
+    <path d="M442 302H490"/>
+    <path d="M640 302H688"/>
+    <path d="M838 302H886"/>
+  </g>
+  <g fill="#64748B">
+    <path d="M292 302L278 294V310L292 302Z"/>
+    <path d="M490 302L476 294V310L490 302Z"/>
+    <path d="M688 302L674 294V310L688 302Z"/>
+    <path d="M886 302L872 294V310L886 302Z"/>
+  </g>
+
+  <g font-family="Arial, 'Microsoft YaHei', sans-serif">
+    <rect x="146" y="430" width="908" height="76" rx="20" fill="#F1F5F9" stroke="#CBD5E1"/>
+    <text x="600" y="462" text-anchor="middle" fill="#334155" font-size="22" font-weight="700">交叉验证顺序</text>
+    <text x="600" y="492" text-anchor="middle" fill="#526173" font-size="18">终端日志 → CAN 抓包 → 平台状态 → 轨迹/定位质量 → 异常恢复记录</text>
+  </g>
+</svg>

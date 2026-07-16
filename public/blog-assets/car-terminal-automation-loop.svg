@@ -1,0 +1,45 @@
+<svg width="1200" height="640" viewBox="0 0 1200 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">车载终端自动化回归闭环</title>
+  <desc id="desc">休眠监听、CAN 唤醒、网络恢复、SSH 验证和 JSONL 结果记录组成的自动化回归闭环。</desc>
+  <rect width="1200" height="640" fill="#F8FAFC"/>
+  <rect x="56" y="56" width="1088" height="528" rx="30" fill="#FFFFFF" stroke="#D8E1EA" stroke-width="2"/>
+  <text x="104" y="118" fill="#132033" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="38" font-weight="700">自动化回归闭环</text>
+  <text x="104" y="158" fill="#526173" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="21">脚本价值在于记录失败阶段和证据，让高频场景变成可重复、可统计的回归流程。</text>
+
+  <g font-family="Arial, 'Microsoft YaHei', sans-serif">
+    <circle cx="600" cy="342" r="168" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"/>
+    <circle cx="600" cy="342" r="74" fill="#123B4A"/>
+    <text x="600" y="334" text-anchor="middle" fill="#FFFFFF" font-size="28" font-weight="700">stage</text>
+    <text x="600" y="366" text-anchor="middle" fill="#BDE9F2" font-size="18">失败阶段定位</text>
+
+    <rect x="470" y="190" width="260" height="66" rx="18" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+    <text x="600" y="232" text-anchor="middle" fill="#047857" font-size="23" font-weight="700">等待 sleepAck</text>
+
+    <rect x="746" y="312" width="230" height="66" rx="18" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+    <text x="861" y="354" text-anchor="middle" fill="#1D4ED8" font-size="23" font-weight="700">发送 CAN 唤醒</text>
+
+    <rect x="470" y="430" width="260" height="66" rx="18" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+    <text x="600" y="472" text-anchor="middle" fill="#C2410C" font-size="23" font-weight="700">等待 Wi-Fi 恢复</text>
+
+    <rect x="224" y="312" width="230" height="66" rx="18" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="339" y="354" text-anchor="middle" fill="#6D28D9" font-size="23" font-weight="700">SSH 执行 ping</text>
+
+    <rect x="430" y="536" width="340" height="36" rx="18" fill="#FEFCE8" stroke="#EAB308" stroke-width="2"/>
+    <text x="600" y="560" text-anchor="middle" fill="#854D0E" font-size="17" font-weight="700">输出 JSONL：cycle / success / stage / message / duration</text>
+  </g>
+
+  <g stroke="#64748B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M718 246C762 262 796 286 820 312"/>
+    <path d="M798 378C770 414 748 434 724 448"/>
+    <path d="M476 448C440 430 410 406 380 378"/>
+    <path d="M380 312C410 282 440 260 482 246"/>
+    <path d="M600 496V536"/>
+  </g>
+  <g fill="#64748B">
+    <path d="M820 312L804 306L816 324L820 312Z"/>
+    <path d="M724 448L739 436L742 453L724 448Z"/>
+    <path d="M380 378L394 386L383 397L380 378Z"/>
+    <path d="M482 246L468 257L465 240L482 246Z"/>
+    <path d="M600 536L592 522H608L600 536Z"/>
+  </g>
+</svg>

@@ -1,0 +1,51 @@
+<svg width="1200" height="640" viewBox="0 0 1200 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">平台上报与诊断联动测试</title>
+  <desc id="desc">终端、网络、平台、诊断代理、ECALL 和配置下发之间的联动测试示意图。</desc>
+  <rect width="1200" height="640" fill="#F7FAFC"/>
+  <rect x="54" y="54" width="1092" height="532" rx="30" fill="#FFFFFF" stroke="#D8E1EA" stroke-width="2"/>
+  <text x="102" y="118" fill="#132033" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="38" font-weight="700">平台上报与诊断联动测试</text>
+  <text x="102" y="158" fill="#526173" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="21">这类测试需要同时看终端是否发出、平台是否收到、诊断会话是否正确、异常后是否恢复。</text>
+
+  <g font-family="Arial, 'Microsoft YaHei', sans-serif">
+    <rect x="104" y="254" width="220" height="116" rx="22" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+    <text x="214" y="304" text-anchor="middle" fill="#1D4ED8" font-size="28" font-weight="700">车载终端</text>
+    <text x="214" y="336" text-anchor="middle" fill="#3A5274" font-size="17">定位 / SOS / 故障</text>
+
+    <rect x="394" y="214" width="180" height="86" rx="20" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+    <text x="484" y="250" text-anchor="middle" fill="#047857" font-size="24" font-weight="700">网络链路</text>
+    <text x="484" y="277" text-anchor="middle" fill="#315B50" font-size="16">Wi-Fi / 4G / 5G</text>
+
+    <rect x="394" y="360" width="180" height="86" rx="20" fill="#FEFCE8" stroke="#EAB308" stroke-width="2"/>
+    <text x="484" y="396" text-anchor="middle" fill="#854D0E" font-size="24" font-weight="700">诊断链路</text>
+    <text x="484" y="423" text-anchor="middle" fill="#6B5A2E" font-size="16">DOIP / 会话</text>
+
+    <rect x="646" y="214" width="180" height="86" rx="20" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+    <text x="736" y="250" text-anchor="middle" fill="#C2410C" font-size="24" font-weight="700">运营平台</text>
+    <text x="736" y="277" text-anchor="middle" fill="#72513A" font-size="16">上报 / 回传</text>
+
+    <rect x="646" y="360" width="180" height="86" rx="20" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="736" y="396" text-anchor="middle" fill="#6D28D9" font-size="24" font-weight="700">ECALL</text>
+    <text x="736" y="423" text-anchor="middle" fill="#584A73" font-size="16">白名单 / 呼叫</text>
+
+    <rect x="896" y="254" width="200" height="116" rx="22" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+    <text x="996" y="304" text-anchor="middle" fill="#334155" font-size="28" font-weight="700">结果判定</text>
+    <text x="996" y="336" text-anchor="middle" fill="#526173" font-size="17">一致性 / 补发 / 恢复</text>
+  </g>
+
+  <g stroke="#64748B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M324 290C350 270 364 260 394 257"/>
+    <path d="M324 334C352 368 364 396 394 403"/>
+    <path d="M574 257H646"/>
+    <path d="M574 403H646"/>
+    <path d="M826 257C858 262 874 282 896 298"/>
+    <path d="M826 403C858 394 874 364 896 334"/>
+  </g>
+  <g fill="#64748B">
+    <path d="M394 257L379 250V266L394 257Z"/>
+    <path d="M394 403L380 394V410L394 403Z"/>
+    <path d="M646 257L632 249V265L646 257Z"/>
+    <path d="M646 403L632 395V411L646 403Z"/>
+    <path d="M896 298L880 294L890 311L896 298Z"/>
+    <path d="M896 334L880 335L891 320L896 334Z"/>
+  </g>
+</svg>

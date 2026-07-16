@@ -54,6 +54,10 @@ author: "Funny"
 
 把“是否成功”变成明确的判定条件，而不是只靠肉眼看界面。
 
+![车载终端自动化回归闭环](/blog-assets/car-terminal-automation-loop.svg)
+
+> 自动化回归闭环：脚本每一轮都围绕 `stage` 记录失败点，把休眠监听、CAN 唤醒、网络恢复、SSH 验证和 JSONL 结果串成可统计的测试证据。
+
 ```bash
 # 常用的排障命令
 journalctl -f
