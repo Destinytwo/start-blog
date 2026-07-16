@@ -53,37 +53,7 @@ const projectBuildingRelations = [
 	{ kind: "timeline", id: "wuhan-surveying-algorithm-intern" },
 ] as const;
 
-const roboconQuadrupedRelations = [
-	{
-		kind: "project",
-		id: "robocon-quadruped-vision-module",
-		label: "四足视觉项目",
-	},
-	{ kind: "timeline", id: "robocon-quadruped-vision-module" },
-] as const;
-
 const manualGalleryPhotos: GalleryPhoto[] = [
-	withResponsiveImage({
-		id: "beedog-quadruped-robot",
-		src: "/blog-assets/beedog-quadruped-robot.png",
-		alt: "BeeDog 仿生四足机器人平台",
-		title: "BeeDog 四足视觉平台",
-		description: "用于 Robocon 仿生四足机器人视觉模块复盘的公开平台素材，重点记录相机输入、路径识别和现场调参链路。",
-		date: "2024-07-09",
-		location: "江苏无锡江阴",
-		tags: ["Robocon", "四足机器人", "OpenCV", "视觉模块"],
-		aspectRatio: "4 / 3",
-		accent: "#ea580c",
-		featured: true,
-		links: createContentLinks([
-			{
-				kind: "post",
-				slug: "robocon-quadruped-vision-module",
-				label: "视觉模块复盘",
-			},
-			...roboconQuadrupedRelations,
-		]),
-	}),
 	withResponsiveImage({
 		id: "building-system-home",
 		src: "/blog-assets/building-system-home.png",
