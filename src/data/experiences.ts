@@ -3,7 +3,7 @@ import type { ExperienceTopic } from "@components/features/experience";
 export const experiencesData: ExperienceTopic[] = [
 	{
 		id: "kotei-vision-perception-internship",
-		title: "光庭视觉感知算法实习",
+		title: "自动驾驶视觉感知算法实习",
 		description: "记录我在视觉感知算法实习中参与 AVM 全景环视、语义建图、APA / MPA 指标计算、PCD 预处理和三维点云映射的经历。",
 		category: "internship",
 		icon: "material-symbols:linked-camera-rounded",

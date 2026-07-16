@@ -55,7 +55,7 @@ export const projectsData: Project[] = [
 	},
 	{
 		"id": "kotei-vision-perception-internship",
-		"title": "光庭视觉感知算法实习项目",
+		"title": "自动驾驶视觉感知算法实习项目",
 		"description": "围绕 AVM 全景环视、语义建图和点云映射，整理亚像素角点检测、PCD 预处理、APA/MPA 指标计算和 CloudCompare 可视化分析工作。",
 		"image": "/blog-assets/kotei-vision-perception-cover.svg",
 		"category": "视觉算法项目",

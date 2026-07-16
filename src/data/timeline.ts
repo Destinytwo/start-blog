@@ -37,7 +37,7 @@ export const timelineData: TimelineItem[] = [
 	},
 	{
 		id: "kotei-vision-perception-intern",
-		title: "光庭视觉感知算法实习",
+		title: "自动驾驶视觉感知算法实习",
 		description:
 			"在武汉光庭技术股份有限公司参与 AVM 全景环视和 APA 自动泊车相关研发，围绕亚像素级角点检测、全景拼接质量优化、语义分割到三维点云映射和点云质量分析开展算法工作。",
 		type: "internship",
@@ -73,7 +73,7 @@ export const timelineData: TimelineItem[] = [
 		id: "car-terminal-test-dev-intern",
 		title: "车载终端测试开发实习",
 		description:
-			"围绕 TBOX 定位与通信、运营平台上报、ECALL、DOIP、WiFi 和电源模式切换等场景，参与车载终端测试开发与自动化验证。",
+			"针对百度 Apollo 萝卜快跑 RT6、RT7 车型的 TBOX 定位与通信、运营平台上报、ECALL、DOIP、WiFi 和电源模式切换等场景，参与车载终端测试开发与自动化验证。",
 		type: "internship",
 		startDate: "2025-09-01",
 		endDate: "2026-02-28",
