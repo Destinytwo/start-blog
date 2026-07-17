@@ -10,4 +10,5 @@ export interface PhotoCardProps {
 	albumId?: string;
 	photo?: GalleryPhoto;
 	flowClone?: boolean;
+	deferImage?: boolean;
 }

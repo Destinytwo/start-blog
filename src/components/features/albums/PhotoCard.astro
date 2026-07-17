@@ -9,12 +9,17 @@ const {
 	albumId = "gallery",
 	photo,
 	flowClone = false,
+	deferImage = false,
 } = Astro.props as PhotoCardProps;
 
 const cardSrc = photo?.src ?? src ?? "";
 const previewSrc = photo?.mediumSrc ?? cardSrc;
 const cardAlt = photo?.alt ?? alt;
 const responsiveImage = photo?.image;
+const displaySources = photo?.thumbSrc ? [] : (responsiveImage?.sources ?? []);
+const displaySrc = photo?.thumbSrc ?? responsiveImage?.src ?? previewSrc;
+const placeholderSrc =
+	"data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=";
 const title = photo?.title ?? cardAlt;
 const caption = photo?.description ? `${title} - ${photo.description}` : title;
 const linkTypes = photo ? [...new Set(photo.links.map((link) => link.type))] : [];
@@ -71,16 +76,22 @@ const getLinkIcon = (type: string) => {
 	>
 		<picture>
 			{
-				responsiveImage?.sources?.map((source) => (
+				(!deferImage ? displaySources : []).map((source) => (
 					<source
 						type={source.type}
 						srcset={source.srcset}
-						sizes={responsiveImage.sizes}
+						sizes={responsiveImage?.sizes}
 					/>
 				))
 			}
 			<img
-				src={responsiveImage?.src ?? previewSrc}
+				src={deferImage ? placeholderSrc : displaySrc}
+				data-gallery-src={deferImage ? displaySrc : undefined}
+				data-gallery-srcset={
+					deferImage && displaySources.length > 0
+						? displaySources[0]?.srcset
+						: undefined
+				}
 				alt={cardAlt}
 				loading="lazy"
 				decoding="async"

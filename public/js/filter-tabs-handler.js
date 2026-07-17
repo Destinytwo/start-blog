@@ -17,13 +17,13 @@
 
 			var dataSelector = "[data-" + filterAttr + "]";
 			var parent = container.closest(".card-base") || document;
-			var items = parent.querySelectorAll(dataSelector);
 			var noResults = parent.querySelector("#no-results");
 
-			if (items.length === 0) return;
+			if (parent.querySelectorAll(dataSelector).length === 0) return;
 
 			tabs.forEach(function (tab) {
 				tab.addEventListener("click", function () {
+					var items = parent.querySelectorAll(dataSelector);
 					tabs.forEach(function (t) {
 						t.classList.remove("active");
 					});
@@ -40,7 +40,7 @@
 
 						if (match) {
 							item.classList.remove("filtered-out");
-							if (!hiddenByGroup) {
+							if (!hiddenByGroup && !item.classList.contains("is-flow-clone")) {
 								visibleCount++;
 							}
 						} else {
