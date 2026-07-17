@@ -1,10 +1,13 @@
 import type { GalleryLinkType, GalleryPhoto } from "../types/album";
 import { getResponsiveImage } from "../utils/responsive-media";
 import { createContentLinks } from "./content-links";
+import { generatedGalleryPhotos } from "./generated-gallery";
 import { getMomentGalleryPhotos } from "./moments";
 
+type GalleryFilterType = GalleryLinkType | "竞赛" | "旅行" | "美食" | "美景";
+
 export const galleryFilterTypes: {
-	value: GalleryLinkType | "all";
+	value: GalleryFilterType | "all";
 	label: string;
 	icon: string;
 }[] = [
@@ -37,6 +40,26 @@ export const galleryFilterTypes: {
 		value: "说说",
 		label: "说说",
 		icon: "material-symbols:forum",
+	},
+	{
+		value: "竞赛",
+		label: "竞赛",
+		icon: "material-symbols:emoji-events",
+	},
+	{
+		value: "旅行",
+		label: "旅行",
+		icon: "material-symbols:travel-explore",
+	},
+	{
+		value: "美食",
+		label: "美食",
+		icon: "material-symbols:restaurant",
+	},
+	{
+		value: "美景",
+		label: "美景",
+		icon: "material-symbols:landscape",
 	},
 ];
 
@@ -177,5 +200,6 @@ const manualGalleryPhotos: GalleryPhoto[] = [
 
 export const galleryPhotos: GalleryPhoto[] = [
 	...manualGalleryPhotos,
+	...generatedGalleryPhotos,
 	...getMomentGalleryPhotos(),
 ];

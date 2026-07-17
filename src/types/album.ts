@@ -36,6 +36,10 @@ export interface ResponsiveImageData {
 export interface GalleryPhoto {
 	id: string;
 	src: string;
+	thumbSrc?: string;
+	mediumSrc?: string;
+	width?: number;
+	height?: number;
 	alt: string;
 	title: string;
 	description?: string;

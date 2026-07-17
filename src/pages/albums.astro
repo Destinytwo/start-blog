@@ -19,7 +19,8 @@ const getTypeCount = (value: string) => {
 	}
 
 	return galleryPhotos.filter((photo) =>
-		photo.links.some((link) => link.type === value),
+		photo.links.some((link) => link.type === value) ||
+		photo.tags?.includes(value),
 	).length;
 };
 
@@ -129,6 +130,104 @@ const subtitle = "把博客、项目、经历、经验和说说里的图片按�
 				applyTimelineGalleryGroup();
 			}
 			document.addEventListener("astro:page-load", applyTimelineGalleryGroup);
+		})();
+	</script>
+
+	<script is:inline>
+		(function () {
+			function initGalleryWaterfall() {
+				var viewport = document.querySelector(".gallery-waterfall-viewport");
+				var track = document.querySelector(".gallery-waterfall-track");
+				var firstSet = document.querySelector(".gallery-waterfall-set");
+				if (!viewport || !track || !firstSet || track.dataset.waterfallReady) {
+					return;
+				}
+
+				track.dataset.waterfallReady = "true";
+
+				var offset = 0;
+				var setHeight = 1;
+				var lastTime = 0;
+				var isPointerInside = false;
+				var reduceMotion = window.matchMedia(
+					"(prefers-reduced-motion: reduce)",
+				).matches;
+				var pxPerSecond = window.matchMedia("(max-width: 560px)").matches
+					? 12
+					: 16;
+
+				function normalizeOffset() {
+					if (setHeight <= 0) {
+						offset = 0;
+						return;
+					}
+					offset = ((offset % setHeight) + setHeight) % setHeight;
+				}
+
+				function render() {
+					track.style.transform = "translateY(" + -offset + "px)";
+				}
+
+				function measure() {
+					setHeight = Math.max(1, firstSet.scrollHeight);
+					normalizeOffset();
+					render();
+				}
+
+				function step(time) {
+					if (!lastTime) lastTime = time;
+					var delta = Math.min(64, time - lastTime);
+					lastTime = time;
+
+					if (!isPointerInside && !reduceMotion) {
+						offset += (pxPerSecond * delta) / 1000;
+						normalizeOffset();
+						render();
+					}
+
+					window.requestAnimationFrame(step);
+				}
+
+				viewport.addEventListener("pointerenter", function () {
+					isPointerInside = true;
+				});
+
+				viewport.addEventListener("pointerleave", function () {
+					isPointerInside = false;
+				});
+
+				viewport.addEventListener(
+					"wheel",
+					function (event) {
+						if (!isPointerInside) return;
+						event.preventDefault();
+						offset += event.deltaY;
+						normalizeOffset();
+						render();
+					},
+					{ passive: false },
+				);
+
+				window.addEventListener("resize", function () {
+					window.requestAnimationFrame(measure);
+				});
+
+				document.addEventListener("click", function (event) {
+					if (event.target.closest(".filter-tabs-item")) {
+						window.setTimeout(measure, 80);
+					}
+				});
+
+				window.setTimeout(measure, 120);
+				window.requestAnimationFrame(step);
+			}
+
+			if (document.readyState === "loading") {
+				document.addEventListener("DOMContentLoaded", initGalleryWaterfall);
+			} else {
+				initGalleryWaterfall();
+			}
+			document.addEventListener("astro:page-load", initGalleryWaterfall);
 		})();
 	</script>
 
@@ -329,13 +428,8 @@ const subtitle = "把博客、项目、经历、经验和说说里的图片按�
 
 	.gallery-waterfall-track {
 		width: 100%;
-		animation: galleryWaterfallFlow 56s linear infinite;
+		transform: translateY(0);
 		will-change: transform;
-	}
-
-	.gallery-waterfall-viewport:hover .gallery-waterfall-track,
-	.gallery-waterfall-viewport:focus-within .gallery-waterfall-track {
-		animation-play-state: paused;
 	}
 
 	.gallery-waterfall-set {
@@ -391,25 +485,6 @@ const subtitle = "把博客、项目、经历、经验和说说里的图片按�
 			height: 68vh;
 			min-height: 30rem;
 			border-radius: 0.8rem;
-		}
-
-		.gallery-waterfall-track {
-			animation-duration: 44s;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.gallery-waterfall-track {
-			animation: none;
-		}
-	}
-
-	@keyframes galleryWaterfallFlow {
-		from {
-			transform: translateY(0);
-		}
-		to {
-			transform: translateY(-50%);
 		}
 	}
 </style>

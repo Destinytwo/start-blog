@@ -12,12 +12,14 @@ const {
 } = Astro.props as PhotoCardProps;
 
 const cardSrc = photo?.src ?? src ?? "";
+const previewSrc = photo?.mediumSrc ?? cardSrc;
 const cardAlt = photo?.alt ?? alt;
 const responsiveImage = photo?.image;
 const title = photo?.title ?? cardAlt;
 const caption = photo?.description ? `${title} - ${photo.description}` : title;
 const linkTypes = photo ? [...new Set(photo.links.map((link) => link.type))] : [];
-const dataTypes = linkTypes.join(",");
+const tagTypes = photo?.tags ?? [];
+const dataTypes = [...new Set([...linkTypes, ...tagTypes])].join(",");
 const timelineIds = photo
 	? photo.links
 			.map((link) => link.href.match(/^\/timeline\/#(.+)$/)?.[1])
@@ -78,7 +80,7 @@ const getLinkIcon = (type: string) => {
 				))
 			}
 			<img
-				src={responsiveImage?.src ?? cardSrc}
+				src={responsiveImage?.src ?? previewSrc}
 				alt={cardAlt}
 				loading="lazy"
 				decoding="async"
