@@ -1,6 +1,6 @@
 import type { PostForList } from "@utils/content-utils";
 
-export type ExperienceCategory = "career" | "internship" | "housing" | "life";
+export type ExperienceCategory = "career" | "writing" | "life";
 
 export type ExperienceStatus = "collecting" | "in-progress" | "stable";
 
