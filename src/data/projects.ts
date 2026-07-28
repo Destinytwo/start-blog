@@ -31,7 +31,7 @@ export const projectsData: Project[] = [
 		],
 		"status": "in-progress",
 		"featured": true,
-		"visitUrl": "/posts/langgraph-quickstart-principles-earthquake-agent/",
+		"visitUrl": "/posts/langgraph-quickstart-principles/",
 		"showImage": true
 	},
 	{
