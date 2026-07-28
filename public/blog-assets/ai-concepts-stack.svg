@@ -1,0 +1,63 @@
+<svg width="1320" height="760" viewBox="0 0 1320 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1320" height="760" rx="36" fill="#F8FAFC"/>
+  <defs>
+    <linearGradient id="bg" x1="72" y1="88" x2="1210" y2="682" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF6FF"/>
+      <stop offset="0.48" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#ECFDF5"/>
+    </linearGradient>
+    <linearGradient id="line" x1="170" y1="0" x2="1150" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="0.34" stop-color="#06B6D4"/>
+      <stop offset="0.68" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#22C55E"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2L10 6L2 10" fill="none" stroke="#334155" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="54" y="54" width="1212" height="652" rx="32" fill="url(#bg)" stroke="#D8E0EA" stroke-width="2"/>
+  <text x="90" y="118" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="850" fill="#0F172A">AI Concepts: From LLM to Agent Skill</text>
+  <text x="90" y="157" font-family="Inter, Arial, sans-serif" font-size="18" fill="#64748B">Understand the engineering chain behind modern AI applications</text>
+
+  <path d="M166 374H1156" stroke="url(#line)" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)" font-family="Inter, Arial, sans-serif">
+    <rect x="94" y="264" width="186" height="210" rx="26" fill="#FFFFFF" stroke="#BFDBFE"/>
+    <text x="132" y="322" font-size="28" font-weight="850" fill="#1D4ED8">LLM</text>
+    <text x="132" y="356" font-size="15" fill="#475569">概率生成引擎</text>
+    <text x="132" y="384" font-size="15" fill="#475569">Transformer</text>
+    <text x="132" y="412" font-size="15" fill="#475569">预测下一个 token</text>
+
+    <rect x="326" y="264" width="186" height="210" rx="26" fill="#FFFFFF" stroke="#BAE6FD"/>
+    <text x="364" y="322" font-size="28" font-weight="850" fill="#0891B2">Token</text>
+    <text x="364" y="356" font-size="15" fill="#475569">文本切分单位</text>
+    <text x="364" y="384" font-size="15" fill="#475569">编码为 token ID</text>
+    <text x="364" y="412" font-size="15" fill="#475569">影响成本和速度</text>
+
+    <rect x="558" y="264" width="186" height="210" rx="26" fill="#FFFFFF" stroke="#DDD6FE"/>
+    <text x="596" y="322" font-size="28" font-weight="850" fill="#7C3AED">Context</text>
+    <text x="596" y="356" font-size="15" fill="#475569">临时工作记忆</text>
+    <text x="596" y="384" font-size="15" fill="#475569">问题 + 历史 + 工具</text>
+    <text x="596" y="412" font-size="15" fill="#475569">受窗口容量限制</text>
+
+    <rect x="790" y="264" width="186" height="210" rx="26" fill="#FFFFFF" stroke="#FED7AA"/>
+    <text x="828" y="322" font-size="28" font-weight="850" fill="#EA580C">Prompt</text>
+    <text x="828" y="356" font-size="15" fill="#475569">任务指令</text>
+    <text x="828" y="384" font-size="15" fill="#475569">system / user</text>
+    <text x="828" y="412" font-size="15" fill="#475569">约束输出方向</text>
+
+    <rect x="1022" y="264" width="204" height="210" rx="26" fill="#FFFFFF" stroke="#BBF7D0"/>
+    <text x="1060" y="322" font-size="28" font-weight="850" fill="#16A34A">Agent</text>
+    <text x="1060" y="356" font-size="15" fill="#475569">规划 + 工具调用</text>
+    <text x="1060" y="384" font-size="15" fill="#475569">MCP 接入工具</text>
+    <text x="1060" y="412" font-size="15" fill="#475569">Skill 约束流程</text>
+  </g>
+
+  <rect x="136" y="548" width="1048" height="86" rx="22" fill="#0F172A"/>
+  <text x="176" y="585" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#F8FAFC">One sentence</text>
+  <text x="176" y="617" font-family="Inter, Arial, sans-serif" font-size="17" fill="#CBD5E1">LLM predicts tokens inside a context window; prompts shape the task; tools extend real-world capability; agents plan multi-step actions; skills package reusable operating rules.</text>
+</svg>
