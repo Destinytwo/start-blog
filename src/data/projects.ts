@@ -15,6 +15,26 @@ export interface Project {
 
 export const projectsData: Project[] = [
 	{
+		"id": "earthquake-nightlight-loss-agent",
+		"title": "地震应急夜光损失评估智能体",
+		"description": "面向震后应急评估场景，基于 LangGraph 编排地震事件解析、夜光遥感变化检测、质量检查、损失等级估计、人工复核和报告生成流程。",
+		"image": "/blog-assets/earthquake-nightlight-agent-flow.svg",
+		"category": "AI 智能体项目",
+		"techStack": [
+			"Python",
+			"LangGraph",
+			"LangChain",
+			"夜光遥感",
+			"GeoPandas",
+			"Rasterio",
+			"智能体"
+		],
+		"status": "in-progress",
+		"featured": true,
+		"visitUrl": "/posts/langgraph-quickstart-principles-earthquake-agent/",
+		"showImage": true
+	},
+	{
 		"id": "building-defect-3d-system",
 		"title": "基于实景三维模型的建筑物缺陷检测系统",
 		"description": "围绕建筑外立面巡检场景，构建实景三维模型、航拍二维影像、缺陷检测模型和报告导出的完整闭环。",

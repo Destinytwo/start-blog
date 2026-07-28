@@ -1,0 +1,65 @@
+<svg width="1320" height="760" viewBox="0 0 1320 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1320" height="760" rx="36" fill="#F8FAFC"/>
+  <rect x="46" y="46" width="1228" height="668" rx="32" fill="#FFFFFF" stroke="#D8E0EA" stroke-width="2"/>
+  <text x="84" y="104" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#0F172A">LangGraph: State + Node + Edge</text>
+  <text x="84" y="143" font-family="Inter, Arial, sans-serif" font-size="18" fill="#64748B">A graph runtime for durable, controllable, stateful agent workflows</text>
+
+  <defs>
+    <linearGradient id="stateGrad" x1="160" y1="210" x2="402" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="536" y1="210" x2="784" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#EC4899"/>
+    </linearGradient>
+    <linearGradient id="edgeGrad" x1="918" y1="210" x2="1160" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F97316"/>
+      <stop offset="1" stop-color="#22C55E"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2L10 6L2 10" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2L10 6L2 10" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="130" y="205" width="300" height="250" rx="28" fill="url(#stateGrad)"/>
+  <text x="170" y="264" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#FFFFFF">State</text>
+  <text x="170" y="302" font-family="Inter, Arial, sans-serif" font-size="17" fill="#DBEAFE">Shared context</text>
+  <rect x="170" y="332" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="192" y="356" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">messages</text>
+  <rect x="170" y="378" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="192" y="402" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">budget / result</text>
+  <rect x="170" y="424" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="192" y="448" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">review status</text>
+
+  <rect x="510" y="205" width="300" height="250" rx="28" fill="url(#nodeGrad)"/>
+  <text x="550" y="264" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#FFFFFF">Node</text>
+  <text x="550" y="302" font-family="Inter, Arial, sans-serif" font-size="17" fill="#FCE7F3">Executable step</text>
+  <rect x="550" y="332" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="572" y="356" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">call model</text>
+  <rect x="550" y="378" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="572" y="402" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">run tool</text>
+  <rect x="550" y="424" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="572" y="448" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">write state update</text>
+
+  <rect x="890" y="205" width="300" height="250" rx="28" fill="url(#edgeGrad)"/>
+  <text x="930" y="264" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#FFFFFF">Edge</text>
+  <text x="930" y="302" font-family="Inter, Arial, sans-serif" font-size="17" fill="#FFEDD5">Control flow</text>
+  <rect x="930" y="332" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="952" y="356" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">normal transition</text>
+  <rect x="930" y="378" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="952" y="402" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">conditional routing</text>
+  <rect x="930" y="424" width="220" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="952" y="448" font-family="Inter, Arial, sans-serif" font-size="15" fill="#FFFFFF">loop / finish</text>
+
+  <path d="M430 330H502" stroke="#334155" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M810 330H882" stroke="#334155" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M1040 456C1040 612 280 612 280 462" stroke="#2563EB" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 10" marker-end="url(#arrowBlue)"/>
+
+  <rect x="120" y="548" width="1080" height="90" rx="22" fill="#F1F5F9" stroke="#D8E0EA"/>
+  <text x="156" y="587" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#0F172A">Execution idea</text>
+  <text x="156" y="620" font-family="Inter, Arial, sans-serif" font-size="17" fill="#475569">Each node reads the current state, returns a state patch, and edges decide the next node. Conditional edges make branch, loop, and human review possible.</text>
+</svg>
